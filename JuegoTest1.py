@@ -96,13 +96,13 @@ class border:
     def check(m):
         global movex, movey
         if m[0] >= screen_size[0]-20:
-            movex += 1
-        if m[0] <= 20:
             movex -= 1
+        if m[0] <= 20:
+            movex += 1
         if m[1] >= screen_size[1]-20:
-            movey += 1
-        if m[1] <= 20:
             movey -= 1
+        if m[1] <= 20:
+            movey += 1
 
 
 #class movmap:
