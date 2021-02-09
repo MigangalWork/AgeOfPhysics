@@ -26,7 +26,7 @@ class game:
 
             #Pintamos la pantalla
             pantallita.fill(white)
-            pygame.draw.rect(pantallita, (0,0,0), (300 + movex,0 + movey,4,40))
+            pygame.draw.rect(pantallita, (0,0,0), (300 + movex,300 + movey,4,40))
 
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos())
