@@ -1,5 +1,6 @@
-import pygame, sys
+import pygame, sys, random
 import ctypes
+from VariablesGlobales import *
 
 # This fix the monitor scaling different from 100%
 # Source: https://stackoverflow.com/questions/62775254/why-does-my-pygame-window-not-fit-in-my-4k3840x2160-monitor-scale-of-pygame-w
@@ -21,13 +22,9 @@ screen_size = (1920,1080)
 
 pantallita = pygame.display.set_mode( screen_size )
 
-fps = 60
 
-run = True
-white = (255,255,255)
-negro = (0,0,0)
-movex = 0
-movey = 0
+
+
 
 class game:
 
@@ -39,25 +36,32 @@ class game:
 
             #Pintamos la pantalla
             pantallita.fill(white)
-            pygame.draw.rect(pantallita, (0,0,0), (300 + movex,300 + movey,4,40))
-
+            
+            mapaactual.create() 
+            pygame.draw.rect(pantallita, (0,0,0), (300 + movex, 300 + movey, 4 + sizex, 40 + sizey))
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos())
             
-
+            #Miramos que eventos ocurren
             for event in pygame.event.get():
 
+                #Miramos si se pulsa la X, de ser asi cerramos el juego
                 if event.type == pygame.QUIT:
 
                     pygame.quit()
                     sys.exit()
                     run = False
 
+                 #Miramos si se pulsa la un boton del raton
                 if event.type == pygame.MOUSEBUTTONDOWN:
+
+                    #Obtenemos la posicion del raton en la pantalla y llamamos a click
                     print(pygame.mouse.get_pos()[0])
                     xy = pygame.mouse.get_pos()
                     click = raton(pygame.mouse.get_pos(), 1)
                     click.click()
+                    mapaactual.create() 
+                    print(random.randint(0,1))
                     
                 if event.type == pygame.KEYDOWN:
                     print(event.key)
@@ -67,7 +71,7 @@ class game:
                     tecla2 = tecla(event.key)
                     tecla2.move()
 
-            clock.tick(fps)
+            clock.tick(500)
             pygame.display.update()        
 
 class raton:
@@ -133,4 +137,37 @@ class intext:
     def __init__(self,evento):
         self.evento = evento
 
+
+class zoom:
+
+    def zoom():
+        ruta_imagen = "manzana.png"
+        ancho_deseado = 20
+        alto_deseado = 40
+        imagen_original = pygame.image.load(ruta_imagen)
+        imagen_redimensionada = pygame.transform.scale(imagen_original, (ancho_deseado, alto_deseado))
+
+class mapa:
+
+    def __init__(self, imgsize):
+        self.imgsize = imgsize
+        self.imagen = ("images/image1.png", "images/image2.png")
+        self.base_image = pygame.image.load(self.imagen[0])
+        self.base_image2 = pygame.image.load(self.imagen[1])
+        self.resize1 = mapa.sizemap(self.imagen, self.imgsize, self.base_image)
+        self.resize2 = mapa.sizemap(self.imagen, self.imgsize, self.base_image2)
+
+    def create(self):
+        resize = (self.resize1, self.resize2)
+        for i in range (-192 + movex,192 +movex):
+            for j in range (0 + movey ,108 +  movey):
+                pantallita.blit(resize[random.randint(0,1)],(i*10,j*10))
+
+    def sizemap(imagen, imgsize, base_image):
+        
+        red_image = pygame.transform.scale(base_image, (imgsize, imgsize))
+        return red_image
+
+mapaactual = mapa(10)
+mapaactual.create()        
 game.play()
