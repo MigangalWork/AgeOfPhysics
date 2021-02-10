@@ -21,18 +21,21 @@ clock = pygame.time.Clock()
 screen_size = (1920,1080)
 
 pantallita = pygame.display.set_mode( screen_size )
+supmapa = pygame.Surface(screen_size)
+pantallita.blit(supmapa, (0,0))
 
 class game:
 
     def play():
 
-        global run, move, zoomv, mapaactual
+        global run, move, zoomv
         
         while run : 
 
             #Pintamos la pantalla
             pantallita.fill(white)
-            
+            pantallita.blit(supmapa, (0 + movex, 0 + movey))
+            supmapa.fill(white)
             mapaactual.create() 
             
             pygame.draw.rect(pantallita, (0,0,0), (300 + movex, 300 + movey, 4 + sizex, 40 + sizey))
@@ -75,7 +78,7 @@ class game:
                         #move -= 10
                     tecla2 = tecla(event.key)
                     tecla2.move()
-
+            
             clock.tick(60)
             pygame.display.update()        
 
@@ -153,7 +156,16 @@ class zoom:
                 zoomv = 5
             mapaactual = mapa(zoomv)
               
+class zooms:
 
+    def zoom(evento):
+        global zoomv, supmapa
+        if evento < 5:
+            zoomv = zoomv + evento * 2
+            if zoomv < 5:
+                zoomv = 5
+            map_size =  [map_size[0] * zoomv, map_size[1] * zoomv]
+            supmapa = pygame.Surface(map_size)
 
 
 class mapa:
@@ -168,9 +180,9 @@ class mapa:
 
     def create(self):
         resize = (self.resize1, self.resize2)
-        for i in range (0 + movex,192 +movex):
-            for j in range (0 + movey ,108 +  movey):
-                pantallita.blit(resize[random.randint(0,1)],(i*self.imgsize,j*self.imgsize))
+        for i in range (map_sizex[0], map_sizex[1]):
+            for j in range (map_sizey[0], map_sizey[1]):
+                supmapa.blit(resize[abs(j%2 - i%2)],(i*self.imgsize,j*self.imgsize))
 
     def sizemap(imgsize, base_image):
         
@@ -178,7 +190,7 @@ class mapa:
         return red_image
 
 
-mapaactual = mapa(50)
+mapaactual = mapa(zoomv)
 
 mapaactual.create()        
 game.play()

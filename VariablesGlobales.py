@@ -10,3 +10,7 @@ sizey = 0
 
 mapa = {}
 zoomv = 10
+map_size = [1920.1080]
+
+map_sizex = [0,192] 
+map_sizey = [0,108] 
