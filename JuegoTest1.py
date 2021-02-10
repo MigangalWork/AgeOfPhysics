@@ -39,7 +39,7 @@ class game:
             mapaactual.create() 
             ejeCoordenadas = [screen_size[0]/2 - movex, screen_size[1]/2 - movey]
             print (ejeCoordenadas)
-            pygame.draw.rect(pantallita, (0,0,0), (ejeCoordenadas[0], ejeCoordenadas[1], 4 + sizex, 40 + sizey))
+            pygame.draw.rect(pantallita, (0,0,0), (ejeCoordenadas[0], ejeCoordenadas[1], 4, 40))
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos())
             
@@ -68,7 +68,7 @@ class game:
                     #click.click()
                     
                 if event.type == pygame.MOUSEWHEEL:   
-                    
+                    print (event.y)
                     zooms.zoom(event.y)
                     
 
@@ -163,20 +163,24 @@ class zoom:
 class zooms:
 
     def zoom(evento):
-        global zoomv, supmapa, movex, movey, map_size
+        global zoomv, supmapa, movex, movey, map_size, mapaactual
         
         if evento > 0:
             map_size =  [map_size[0] * 1.2, map_size[1] * 1.2]
-            movex = movex - (1.2 * ejeCoordenadas[0])
-            movey = movey - (1.2 * ejeCoordenadas[1])
+            zoomv = int(zoomv * 1.2)
+            #movex = movex - (1.2 * ejeCoordenadas[0])
+            #movey = movey - (1.2 * ejeCoordenadas[1])
 
         if evento < 0:
             map_size =  [map_size[0] * 0.8, map_size[1] * 0.8]
-            movex = movex + (0.8 * ejeCoordenadas[0])
-            movey = movey + (0.8 * ejeCoordenadas[1])
+            zoomv = int(zoomv * 0.8)
+            #movex = movex + (0.8 * ejeCoordenadas[0])
+            #movey = movey + (0.8 * ejeCoordenadas[1])
         
 
         supmapa = pygame.Surface(map_size)
+        supmapa.fill(white)
+        mapaactual = mapa(zoomv)
         mapaactual.create()
 
 class mapa:
