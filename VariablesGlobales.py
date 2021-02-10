@@ -7,3 +7,6 @@ movex = 0
 movey = 0
 sizex = 0
 sizey = 0
+
+mapa = {}
+zoomv = 10
