@@ -17,8 +17,8 @@ if sys.platform == 'win32':
 pygame.init()
 
 clock = pygame.time.Clock()
+ejeCoordenadas = [0,0]
 
-screen_size = (1920,1080)
 
 pantallita = pygame.display.set_mode( screen_size )
 supmapa = pygame.Surface(screen_size)
@@ -28,7 +28,7 @@ class game:
 
     def play():
 
-        global run, move, zoomv
+        global run, move, zoomv, movex, movey, ejeCoordenadas
         
         while run : 
 
@@ -37,8 +37,9 @@ class game:
             pantallita.blit(supmapa, (0 + movex, 0 + movey))
             supmapa.fill(white)
             mapaactual.create() 
-            
-            pygame.draw.rect(pantallita, (0,0,0), (300 + movex, 300 + movey, 4 + sizex, 40 + sizey))
+            ejeCoordenadas = [screen_size[0]/2 - movex, screen_size[1]/2 - movey]
+            print (ejeCoordenadas)
+            pygame.draw.rect(pantallita, (0,0,0), (ejeCoordenadas[0], ejeCoordenadas[1], 4 + sizex, 40 + sizey))
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos())
             
@@ -68,7 +69,7 @@ class game:
                     
                 if event.type == pygame.MOUSEWHEEL:   
                     
-                    zoom.zoom(event.y)
+                    zooms.zoom(event.y)
                     
 
                 if event.type == pygame.KEYDOWN:
@@ -145,28 +146,38 @@ class intext:
     def __init__(self,evento):
         self.evento = evento
 
-
+"""
 class zoom:
 
     def zoom(evento):
-        global zoomv, mapaactual
+        global zoomv, mapaactual, movex, movey
         if evento < 5:
             zoomv = zoomv + evento * 5
             if zoomv < 5:
                 zoomv = 5
+            movex = movex - ejeCoordenadas[0]
+            movey = movey - ejeCoordenadas[1]
             mapaactual = mapa(zoomv)
+"""           
               
 class zooms:
 
     def zoom(evento):
-        global zoomv, supmapa
-        if evento < 5:
-            zoomv = zoomv + evento * 2
-            if zoomv < 5:
-                zoomv = 5
-            map_size =  [map_size[0] * zoomv, map_size[1] * zoomv]
-            supmapa = pygame.Surface(map_size)
+        global zoomv, supmapa, movex, movey, map_size
+        
+        if evento > 0:
+            map_size =  [map_size[0] * 1.2, map_size[1] * 1.2]
+            movex = movex - (1.2 * ejeCoordenadas[0])
+            movey = movey - (1.2 * ejeCoordenadas[1])
 
+        if evento < 0:
+            map_size =  [map_size[0] * 0.8, map_size[1] * 0.8]
+            movex = movex + (0.8 * ejeCoordenadas[0])
+            movey = movey + (0.8 * ejeCoordenadas[1])
+        
+
+        supmapa = pygame.Surface(map_size)
+        mapaactual.create()
 
 class mapa:
 
