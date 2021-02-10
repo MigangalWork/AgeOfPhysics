@@ -64,10 +64,8 @@ class game:
                     #click.click()
                     
                 if event.type == pygame.MOUSEWHEEL:   
-
-                    print(event)
-                    print(event.y)
-                    mapaactual = zoom.zoom(event.y)
+                    
+                    zoom.zoom(event.y)
                     
 
                 if event.type == pygame.KEYDOWN:
@@ -154,10 +152,7 @@ class zoom:
             if zoomv < 5:
                 zoomv = 5
             mapaactual = mapa(zoomv)
-            print(zoomv)
-            print("hola")
-            return mapaactual
-        return mapaactual    
+              
 
 
 
