@@ -57,15 +57,26 @@ class game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     
 
-                    #
-                    
-                    
-                    #Obtenemos la posicion del raton en la pantalla y llamamos a click
-                    print (pygame.MOUSEBUTTONDOWN)
-                    #print(pygame.mouse.get_pos()[0])
                     xy = pygame.mouse.get_pos()
+                    #
+                    print (selecCasilla.posMouse(xy))
+                    h = selecCasilla.selecCasilla(xy)
+                    #Obtenemos la posicion del raton en la pantalla y llamamos a click
+                    #print (pygame.MOUSEBUTTONDOWN)
+                    print (xy)
+                    print(h)
+
+                    if h[0] == -1:
+                        pass
+                    else:
+                        genMap.editMap(h[0],h[1],0)
+
+                        
+                    #print(pygame.mouse.get_pos()[0])
                     #click = raton(pygame.mouse.get_pos(), 1)
                     #click.click()
+
+
                     
                 if event.type == pygame.MOUSEWHEEL:   
                     print (event.y)
@@ -162,7 +173,29 @@ class zoom:
             movex = movex - ejeCoordenadas[0]
             movey = movey - ejeCoordenadas[1]
             mapaactual = mapa(zoomv)
-"""           
+"""
+
+class selecCasilla:
+
+    def posMouse(xy):
+        return [xy[0] - movex, xy[1] - movey]
+    def selecCasilla(xy):
+        var = -1
+        var2 = -1
+        x = selecCasilla.posMouse(xy)[0]
+        y = selecCasilla.posMouse(xy)[1]
+        for i in range (map_sizex[0], map_sizex[1]):
+            for j in range (map_sizey[0], map_sizey[1]):
+                if y < (j+1) * zoomv and y > (j) * zoomv :
+                    var = j
+                    continue
+            if x < (i+1) * zoomv and x > (i) * zoomv:
+                var2 = i
+                continue
+        if var == -1 or var2 == -1:
+            return [-1,-1]
+        return [var2,var]
+    
               
 class zooms:
 
@@ -204,6 +237,10 @@ class genMap:
         for i in range (map_sizex[0], map_sizex[1]):
             for j in range (map_sizey[0], map_sizey[1]):
                 mapDic[i,j] = random.randint(0,1)
+    
+    def editMap(i,j,var):
+        global mapDic
+        mapDic[i,j] = var
 
 
 
