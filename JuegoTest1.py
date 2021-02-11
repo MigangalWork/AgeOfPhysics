@@ -76,7 +76,28 @@ class game:
                     #click = raton(pygame.mouse.get_pos(), 1)
                     #click.click()
 
-
+                """
+                if event.type == pygame.MOUSEBUTTONUP:
+                    
+                    xy = (pygame.mouse.get_pos())
+                    click = raton(xy, event.button)
+                    selected2 = click.click()
+                    if selected == selected2:
+                        if selected[0] == -1:
+                            pass
+                        else:
+                            if event.button == 3:
+                                genMap.editMap(selected[0],selected[1],0)
+                            else:
+                                genMap.editMap(selected[0],selected[1],1)
+                    
+                    else:
+                        selectedM = {}
+                        for i in range (selected[0], selected2[0]):
+                            for j in range (selected[1], selected2[1]):
+                                selectedM[i,j] = [i,j]
+                        print (selectedM) 
+                """
                     
                 if event.type == pygame.MOUSEWHEEL:   
                     print (event.y)
