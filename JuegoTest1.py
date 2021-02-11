@@ -41,7 +41,7 @@ class game:
             #print (ejeCoordenadas)
             pygame.draw.rect(pantallita, (0,0,0), (ejeCoordenadas[0], ejeCoordenadas[1], 4, 40))
             #Vemos si el raton esta en algun borde para mover el mapa
-            border.check(pygame.mouse.get_pos())
+            border.check(pygame.mouse.get_pos(), ejeCoordenadas)
             
             #Miramos que eventos ocurren
             for event in pygame.event.get():
@@ -102,16 +102,20 @@ class raton:
 
 class border:
 
-    def check(m):
+    def check(m, eje):
         global movex, movey
-        if m[0] >= screen_size[0]-20:
-            movex -= 1
-        if m[0] <= 20:
-            movex += 1
-        if m[1] >= screen_size[1]-20:
-            movey -= 1
-        if m[1] <= 20:
-            movey += 1
+        if eje[0] < screen_size[0]:
+            if m[0] >= screen_size[0]-20:
+                movex -= 1
+        if eje[0] > 0 :
+            if m[0] <= 20:
+                movex += 1
+        if eje[1] < screen_size[1]:
+            if m[1] >= screen_size[1]-20:
+                movey -= 1
+        if eje[1] > 0 :        
+            if m[1] <= 20:
+                movey += 1
 
 
 #class movmap:
