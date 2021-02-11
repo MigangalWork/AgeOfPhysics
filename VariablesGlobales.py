@@ -10,7 +10,7 @@ sizey = 0
 screen_size = (100,100)
 
 mapa = {}
-zoomv = 10
+zoomv = 5
 map_size = [100,100]
 
 map_sizex = [0,192] 
