@@ -221,7 +221,7 @@ class mapa:
         resize = (self.resize1, self.resize2)
         for i in range (map_sizex[0], map_sizex[1]):
             for j in range (map_sizey[0], map_sizey[1]):
-                supmapa.blit(resize[abs(j%2 - i%2)],(i*self.imgsize,j*self.imgsize))
+                supmapa.blit(resize[mapDic[i,j]],(i*self.imgsize,j*self.imgsize))
 
     def sizemap(imgsize, base_image):
         
