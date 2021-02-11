@@ -170,10 +170,16 @@ class zooms:
         global zoomv, supmapa, movex, movey, map_size, mapaactual
         
         if evento > 0 and evento < 5:
-            map_size =  [map_size[0] * 2, map_size[1] * 2]
+
             zoomv = int(zoomv * 2)
-            movex = movex - (2 * ejeCoordenadas[0] - ejeCoordenadas[0])
-            movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
+            
+            if zoomv > 100:
+                zoomv = 100
+            else:
+                map_size =  [map_size[0] * 2, map_size[1] * 2]
+                
+                movex = movex - (2 * ejeCoordenadas[0] - ejeCoordenadas[0])
+                movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
 
         if evento < 0 and evento > -5:
             
