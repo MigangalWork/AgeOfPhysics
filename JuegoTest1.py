@@ -172,11 +172,12 @@ class zooms:
             movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
 
         if evento < 0 and evento > -5:
-            map_size =  [map_size[0] * 0.5, map_size[1] * 0.5]
+            
             zoomv = int(zoomv * 0.5)
             if zoomv < 5:
                 zoomv = 5
             else:
+                map_size =  [map_size[0] * 0.5, map_size[1] * 0.5]
                 movex = movex - (0.5 * ejeCoordenadas[0] - ejeCoordenadas[0])
                 movey = movey - (0.5 * ejeCoordenadas[1] - ejeCoordenadas[1])
         
