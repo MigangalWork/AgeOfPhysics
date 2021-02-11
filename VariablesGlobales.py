@@ -16,3 +16,4 @@ map_size = [100,100]
 map_sizex = [0,192] 
 map_sizey = [0,108] 
 
+mapDic = {}

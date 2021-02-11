@@ -197,6 +197,15 @@ class zooms:
         print(zoomv)
         mapaactual = mapa(zoomv)
         mapaactual.create()
+class genMap:
+    
+    def genMap ():
+        global mapDic
+        for i in range (map_sizex[0], map_sizex[1]):
+            for j in range (map_sizey[0], map_sizey[1]):
+                mapDic[i,j] = random.randint(0,1)
+
+
 
 class mapa:
 
@@ -219,7 +228,8 @@ class mapa:
         red_image = pygame.transform.scale(base_image, (imgsize, imgsize))
         return red_image
 
-
+genMap.genMap()
+print(mapDic)
 mapaactual = mapa(zoomv)
 
 mapaactual.create()        
