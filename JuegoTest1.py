@@ -173,8 +173,8 @@ class zooms:
 
             zoomv = int(zoomv * 2)
             
-            if zoomv > 100:
-                zoomv = 100
+            if zoomv > 80:
+                zoomv = 80
             else:
                 map_size =  [map_size[0] * 2, map_size[1] * 2]
                 
