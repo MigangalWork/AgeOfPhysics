@@ -104,13 +104,13 @@ class border:
 
     def check(m, eje):
         global movex, movey
-        if eje[0] < screen_size[0]:
+        if eje[0] < map_size[0]:
             if m[0] >= screen_size[0]-20:
                 movex -= 1
         if eje[0] > 0 :
             if m[0] <= 20:
                 movex += 1
-        if eje[1] < screen_size[1]:
+        if eje[1] < map_size[1]:
             if m[1] >= screen_size[1]-20:
                 movey -= 1
         if eje[1] > 0 :        
@@ -229,7 +229,6 @@ class mapa:
         return red_image
 
 genMap.genMap()
-print(mapDic)
 mapaactual = mapa(zoomv)
 
 mapaactual.create()        
