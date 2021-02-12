@@ -21,7 +21,7 @@ ejeCoordenadas = [0,0]
 
 
 pantallita = pygame.display.set_mode( screen_size )
-supmapa = pygame.Surface(screen_size)
+supmapa = pygame.Surface(map_size)
 pantallita.blit(supmapa, (0,0))
 
 class game:
@@ -58,46 +58,46 @@ class game:
                     
 
                     xy = pygame.mouse.get_pos()
-                    #
+                    button = event.button
+
                     print (selecCasilla.posMouse(xy))
-                    h = selecCasilla.selecCasilla(xy)
+                    
                     #Obtenemos la posicion del raton en la pantalla y llamamos a click
                     #print (pygame.MOUSEBUTTONDOWN)
                     print (xy)
-                    print(h)
-
-                    if h[0] == -1:
-                        pass
-                    else:
-                        genMap.editMap(h[0],h[1],0)
+                    
 
                         
                     #print(pygame.mouse.get_pos()[0])
-                    #click = raton(pygame.mouse.get_pos(), 1)
-                    #click.click()
+                    click = mouse(pygame.mouse.get_pos(), button)
+                    selected = click.click()
 
-                """
+                
                 if event.type == pygame.MOUSEBUTTONUP:
                     
                     xy = (pygame.mouse.get_pos())
-                    click = raton(xy, event.button)
+                    click = mouse(xy, event.button)
                     selected2 = click.click()
+
+
                     if selected == selected2:
-                        if selected[0] == -1:
+                        if selected[0][0] == -1:
                             pass
                         else:
                             if event.button == 3:
-                                genMap.editMap(selected[0],selected[1],0)
+                                genMap.editMap(selected[0][0],selected[0][1],0)
                             else:
-                                genMap.editMap(selected[0],selected[1],1)
+                                genMap.editMap(selected[0][0],selected[0][1],1)
                     
                     else:
                         selectedM = {}
-                        for i in range (selected[0], selected2[0]):
-                            for j in range (selected[1], selected2[1]):
-                                selectedM[i,j] = [i,j]
+                        casilla = 0
+                        for i in range (selected[0][0], selected2[0][0]+1):
+                            for j in range (selected[0][1], selected2[0][1]+1):
+                                casilla = casilla + 1
+                                selectedM[casilla] = [i,j]
                         print (selectedM) 
-                """
+                
                     
                 if event.type == pygame.MOUSEWHEEL:   
                     print (event.y)
@@ -111,22 +111,28 @@ class game:
             clock.tick(60)
             pygame.display.update()        
 
-class raton:
+class mouse:
    
 
     def __init__(self, xy, num):
         self.xy = xy
         self.num = num
-    
+
+    def posMouse():
+        return [self.xy[0] - movex, self.xy[1] - movey]
+
     def click(self):
-        
+        h = {}
         if self.num == 1:
-            print ('Hola')
+            h[0] = selecCasilla.selecCasilla(self.xy)
+            print(h)
+            return (h)
+        else:
+            return {0 : [-1,-1]}    
 
-            for i in range (0, screen_size[0]+1):
-                #print (i)
-                objeto = test(i, "holacaracola")
-
+    def selecMulti():
+        pass
+        
 
 class border:
 
@@ -196,7 +202,17 @@ class selecCasilla:
         if var == -1 or var2 == -1:
             return [-1,-1]
         return [var2,var]
-    
+
+class selecUnits:
+
+    def selecUnits():
+        var = 0
+        for i in lenght(selectedM):
+            if madDic[selectedM[i]] == 1:
+            
+                unitsSelected[var] = selectedM[i]
+                var = var + 1
+        print(unitsSelected)
               
 class zooms:
 
@@ -231,6 +247,8 @@ class zooms:
         print(zoomv)
         mapaactual = mapa(zoomv)
         mapaactual.create()
+
+
 class genMap:
     
     def genMap ():
@@ -241,23 +259,47 @@ class genMap:
     
     def editMap(i,j,var):
         global mapDic
+        global mapTile
         mapDic[i,j] = var
+        #mapTile[i,j]['img'] = var
 
+class tile:
+
+    def __init__(self, xy):
+        self.xy = xy
+        #self.img = mapDic[xy]
+
+    def tile(self):
+        #t = {'pos' : self.xy, 'visible' : True, 'visibleBy' : 1, 'img' : mapDic[self.xy], 'unit' : false}
+        #return (t) 
+        pass
+
+class tiles:
+
+    def tiles():
+
+        
+        size = map_sizex[1] * map_sizey [1]
+        for i in range (map_sizex[0], map_sizex[1]):
+            for j in range (map_sizey[0], map_sizey[1]):
+                t = tile([i,j])
+                mapTile[i,j] = t.tile()
+                print(mapTile)
 
 
 class mapa:
 
-    def __init__(self, imgsize, base_image, base_image2):
+    def __init__(self, imgsize):
         self.imgsize = imgsize
-        self.imagen = ("Images/image1.png", "Images/image2.png")
-        self.base_image = pygame.image.load(self.imagen[0])
-        self.base_image2 = pygame.image.load(self.imagen[1])
-        self.resize1 = mapa.sizemap(self.imgsize, self.base_image)
-        self.resize2 = mapa.sizemap(self.imgsize, self.base_image2)
+        self.base_image = base_image
+        self.resize = {}
+        for i in (0,1):
+            self.resize[i] = mapa.sizemap(self.imgsize, base_image[i])
+        
 
 
     def create(self):
-        resize = (self.resize1, self.resize2)
+        resize = (self.resize[0], self.resize[1])
         for i in range (map_sizex[0], map_sizex[1]):
             for j in range (map_sizey[0], map_sizey[1]):
                 supmapa.blit(resize[mapDic[i,j]],(i*self.imgsize,j*self.imgsize))
@@ -269,6 +311,9 @@ class mapa:
 
 
 genMap.genMap()
+
+#tiles.tiles()
+
 mapaactual = mapa(zoomv)
 
 

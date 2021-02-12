@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys, random, ctypes
 
 pygame.init()
 
@@ -15,19 +15,25 @@ screen_size = (100,100)
 
 mapa = {}
 zoomv = 5
-map_size = [100,100]
-
-map_sizex = [0,50] 
-map_sizey = [0,50] 
 
 
-imagen = ("images/image1.png", "images/image2.png")
+map_sizex = [0,100] 
+map_sizey = [0,100] 
 
-base_image = pygame.image.load(imagen[0])
+map_size = [map_sizex[1],map_sizey[1]]
 
-base_image2 = pygame.image.load(imagen[1])
+
+imagen = {0 : "images/image1.png", 1 : "images/image2.png"}
+
+base_image = {}
+
+for i in (0,1):
+    base_image[i] = pygame.image.load(imagen[i])
+
+
 
 mapDic = {}
+mapTile = {}
 
 selected = []
 
