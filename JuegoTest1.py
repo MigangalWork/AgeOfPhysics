@@ -36,7 +36,7 @@ class game:
             pantallita.fill(white)
             pantallita.blit(supmapa, (0 + movex, 0 + movey))
             supmapa.fill(white)
-            mapaactual.create() 
+            mapa.create() 
             ejeCoordenadas = [screen_size[0]/2 - movex, screen_size[1]/2 - movey]
             #print (ejeCoordenadas)
             pygame.draw.rect(pantallita, (0,0,0), (ejeCoordenadas[0], ejeCoordenadas[1], 4, 40))
@@ -252,8 +252,8 @@ class zooms:
         supmapa = pygame.Surface(map_size)
         #supmapa.fill(white)
         print(zoomv)
-        mapaactual = mapa(zoomv)
-        mapaactual.create()
+        #mapaactual = mapa(zoomv)
+        mapaactual.create(zoomv)
 
 
 class genMap:
@@ -317,15 +317,12 @@ class units:
 
 class mapa:
 
-    def __init__(self, imgsize):
-        self.imgsize = imgsize
-        self.base_image = base_image
-
-    def create(self):
         
-        for i in range (map_sizex[0], map_sizex[1]):
-            for j in range (map_sizey[0], map_sizey[1]):
-                supmapa.blit(base_image[mapDic[i,j]][zoomv],(i*self.imgsize,j*self.imgsize))
+    def create(imgsize):
+        
+        for i in range (map_sizex[0], map_sizex[1], self.imasize):
+            for j in range (map_sizey[0], map_sizey[1], self.imasize):
+                supmapa.blit(base_image[mapDic[i,j]][zoomv],(i,j))
 
 
 
@@ -333,10 +330,10 @@ genMap.genMap()
 
 tiles.tiles()
 
-mapaactual = mapa(zoomv)
+#mapaactual = mapa(zoomv)
 
 
-mapaactual.create()        
+mapa.create(zoomv)        
 game.play()
 
 #esto pasa por no tener un archivo test vacio... Este es el codigo cuanod un funcionaba bien el tema del mapa, que no iba super lento y era muy grande

@@ -21,8 +21,8 @@ zoomList = [zoomv, zoomv*2, zoomv*4, zoomv*8, zoomv*16]
 
 clicking = {}
 
-map_sizex = [0,100] 
-map_sizey = [0,100] 
+map_sizex = [0,1000] 
+map_sizey = [0,1000] 
 
 map_size = [map_sizex[1],map_sizey[1]]
 
