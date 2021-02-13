@@ -36,9 +36,9 @@ class game:
             pantallita.fill(white)
             pantallita.blit(supmapa, (0 + movex, 0 + movey))
             supmapa.fill(white)
-            mapa.create() 
-            ejeCoordenadas = [screen_size[0]/2 - movex, screen_size[1]/2 - movey]
-            #print (ejeCoordenadas)
+            mapaactual.create() 
+            ejeCoordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
+            print (ejeCoordenadas)
             pygame.draw.rect(pantallita, (0,0,0), (ejeCoordenadas[0], ejeCoordenadas[1], 4, 40))
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos(), ejeCoordenadas)
@@ -227,8 +227,8 @@ class zooms:
 
             zoomv = zoomv * 2
             
-            if zoomv > zoomvBase*16:
-                zoomv = zoomvBase*16
+            if zoomv > zoomvBase*8:
+                zoomv = zoomvBase*8
             else:
                 map_size =  [map_size[0] * 2, map_size[1] * 2]
                 
@@ -240,7 +240,7 @@ class zooms:
 
         if evento < 0 and evento > -5:
             
-            zoomv = zoomv * 0.5
+            zoomv = int(zoomv * 0.5)
             if zoomv < zoomvBase:
                 zoomv = zoomvBase
             else:
@@ -252,8 +252,8 @@ class zooms:
         supmapa = pygame.Surface(map_size)
         #supmapa.fill(white)
         print(zoomv)
-        #mapaactual = mapa(zoomv)
-        mapaactual.create(zoomv)
+        mapaactual = mapa(zoomv)
+        mapaactual.create()
 
 
 class genMap:
@@ -316,12 +316,12 @@ class units:
         untisDic[unit['id']] = unit
 
 class mapa:
+    def __init__(self, imgsize):
+        self.imgsize = imgsize
 
-        
-    def create(imgsize):
-        
-        for i in range (map_sizex[0], map_sizex[1], self.imasize):
-            for j in range (map_sizey[0], map_sizey[1], self.imasize):
+    def create(self):
+        for i in range (map_sizex[0], map_sizex[1], self.imgsize):
+            for j in range (map_sizey[0], map_sizey[1], self.imgsize):
                 supmapa.blit(base_image[mapDic[i,j]][zoomv],(i,j))
 
 
@@ -330,10 +330,10 @@ genMap.genMap()
 
 tiles.tiles()
 
-#mapaactual = mapa(zoomv)
+mapaactual = mapa(zoomv)
 
 
-mapa.create(zoomv)        
+mapaactual.create()        
 game.play()
 
 #esto pasa por no tener un archivo test vacio... Este es el codigo cuanod un funcionaba bien el tema del mapa, que no iba super lento y era muy grande
