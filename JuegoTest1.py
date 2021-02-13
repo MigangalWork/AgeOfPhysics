@@ -50,24 +50,17 @@ class game:
 
 
             ejeCoordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
-            clickedMap = [(clickedMapOrigin[0] + movex) + clickedMapOrigin[0] * zoomv, (clickedMapOrigin[1] + movex) + clickedMapOrigin[1] * zoomv]
+            # clickedMap = [(clickedMapOrigin[0] + movex) + clickedMapOrigin[0] * zoomv, (clickedMapOrigin[1] + movex) + clickedMapOrigin[1] * zoomv]
 
-
-
-
-            print(clickedMap)
             if clicking[1] and selected[0]!=-1:
-                pixel_selected_x = clickedMap[0]
-                pixel_selected_y = clickedMap[1]
-                mx, my = pygame.mouse.get_pos()
-
-                if pixel_selected_x > mx:
-                    pixel_selected_x = mx
-                if pixel_selected_y > my:
-                    pixel_selected_y = my
-                print(clickedMap)    
-                pygame.draw.rect(pantallita, (0,0,0), (clickedMap[0], clickedMap[1], abs(clickedMap[0] - mx), abs(clickedMap[1] - my)))
+                mx, my =  pygame.mouse.get_pos()
                 
+                pixel_selected_x = min(clickedMap[0], mx)
+                pixel_selected_y = min(clickedMap[1], my)
+                pixel_other_pos_x = max(clickedMap[0], mx)
+                pixel_other_pos_y = max(clickedMap[1], my)
+                pygame.draw.rect(pantallita, (0,0,0), (pixel_selected_x, pixel_selected_y, abs(pixel_selected_x - pixel_other_pos_x), abs(pixel_selected_y - pixel_other_pos_y)), 10)
+
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos(), ejeCoordenadas)
             
@@ -85,19 +78,18 @@ class game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     
                     clicking[event.button] = True
-    
+
                     #definimos el objeto click
                     click = mouse(pygame.mouse.get_pos(), event.button)
-                    
+
                     #Variables de click
                     button = event.button
                     clicked = pygame.mouse.get_pos()
-                    clickedMap = click.posMouse()
-                    clickedMapOrigin = [clickedMap[0],clickedMap[0]]
+                    clickedMap = clicked
+                    #clickedMap = click.posMouse()
+                    #clickedMapOrigin = [clickedMap[0],clickedMap[0]]
                     selected = click.click()
-                    
 
-                
                 if event.type == pygame.MOUSEBUTTONUP:
 
                     clicking[event.button] = False
