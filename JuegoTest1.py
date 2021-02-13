@@ -323,9 +323,9 @@ class mapa:
 
     def create(self):
         
-        for i in range (map_sizex[0], map_sizex[1]):
-            for j in range (map_sizey[0], map_sizey[1]):
-                supmapa.blit(base_image[mapDic[i,j]][zoomv],(i*self.imgsize,j*self.imgsize))
+        for i in range (map_sizex[0], map_sizex[1], self.imgsize):
+            for j in range (map_sizey[0], map_sizey[1], self.imgsize):
+                supmapa.blit(base_image[mapDic[i,j]][zoomv],(i,j))
 
 
 
