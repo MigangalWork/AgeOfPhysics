@@ -294,7 +294,7 @@ class mapa:
         self.imgsize = imgsize
         self.base_image = base_image
         self.resize = {}
-        for i in (0,1):
+        for i in range(len(imagen.keys())):
             self.resize[i] = mapa.sizemap(self.imgsize, base_image[i])
         
 
