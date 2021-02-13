@@ -38,8 +38,10 @@ class game:
             supmapa.fill(white)
             mapaactual.create() 
             ejeCoordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
-            print (ejeCoordenadas)
-            pygame.draw.rect(pantallita, (0,0,0), (ejeCoordenadas[0], ejeCoordenadas[1], 4, 40))
+            #print (ejeCoordenadas)
+            #if clicking[1] == True:
+                #pygame.draw.rect(pantallita, (0,0,0), (selected[0], selected[1], abs(select[0] - pygame.mouse.get_pos()[1]), 40))
+                
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos(), ejeCoordenadas)
             
@@ -190,19 +192,20 @@ class selecCasilla:
 
     def posMouse(xy):
         return [xy[0] - movex, xy[1] - movey]
+
     def selecCasilla(xy):
         var = -1
         var2 = -1
         x = selecCasilla.posMouse(xy)[0]
         y = selecCasilla.posMouse(xy)[1]
-        for i in range (map_sizex[0], map_sizex[1]):
-            for j in range (map_sizey[0], map_sizey[1]):
+        for i in range (map_sizex[0], map_size[0]):
+            for j in range (map_sizey[0], map_size[1]):
                 if y < (j+1) * zoomv and y > (j) * zoomv :
                     var = j
-                    continue
+                    break
             if x < (i+1) * zoomv and x > (i) * zoomv:
                 var2 = i
-                continue
+                break
         if var == -1 or var2 == -1:
             return [-1,-1]
         return [var2,var]
@@ -226,7 +229,7 @@ class zooms:
         if evento > 0 and evento < 5:
 
             zoomv = zoomv * 2
-            
+            #limite de zoom maximo
             if zoomv > zoomvBase*8:
                 zoomv = zoomvBase*8
             else:
@@ -237,21 +240,25 @@ class zooms:
 
                 #movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
                 movey = movey - ejeCoordenadas[1]
+                genMap.editMap
 
         if evento < 0 and evento > -5:
             
             zoomv = int(zoomv * 0.5)
+
+            #limite de zoom minimo
             if zoomv < zoomvBase:
                 zoomv = zoomvBase
             else:
-                map_size =  [map_size[0] * 0.5, map_size[1] * 0.5]
-                movex = movex - (0.5 * ejeCoordenadas[0] - ejeCoordenadas[0])
-                movey = movey - (0.5 * ejeCoordenadas[1] - ejeCoordenadas[1])
-        
+                map_size =  [int(map_size[0] * 0.5), int(map_size[1] * 0.5)]
+                movex = movex - int(0.5 * ejeCoordenadas[0] - ejeCoordenadas[0])
+                movey = movey - int(0.5 * ejeCoordenadas[1] - ejeCoordenadas[1])
+                genMap.editMap
 
         supmapa = pygame.Surface(map_size)
         #supmapa.fill(white)
         print(zoomv)
+        genMap.zoomMap()
         mapaactual = mapa(zoomv)
         mapaactual.create()
 
@@ -259,22 +266,41 @@ class zooms:
 class genMap:
     
     def genMap ():
+        global mapDic, tilesInMap
+        mapDic = {}
+        tilesInMap = 0
+        for i in range (map_sizex[0], map_size[0], zoomv):
+            for j in range (map_sizey[0], map_size[1], zoomv):
+                
+                mapDic[tilesInMap] = {'img' : random.randint(0,1), 'pos' : (i,j)}
+                mapDicXY[i,j] = {'img' : mapDic[tilesInMap], 'pos' : tilesInMap}
+                tilesInMap = tilesInMap + 1
+
+    def zoomMap():
+
         global mapDic
-        for i in range (map_sizex[0], map_sizex[1]):
-            for j in range (map_sizey[0], map_sizey[1]):
-                mapDic[i,j] = random.randint(0,1)
+        var = 0
+        for i in range (map_sizex[0], map_size[0], zoomv):
+            for j in range (map_sizey[0], map_size[1], zoomv):
+                
+                mapDic[var]['pos'] = (i,j)
+                var = var + 1
+        #print(mapDic)
         
+        #for i in range(tilesInMap):
+        #    mapDic[var]['pos']      
+
     def editMap(i,j,var):
         global mapDic
         global mapTile
-        mapDic[i,j] = var
-        mapTile[i,j]['img'] = var
+        mapDic[i]['img'] = var
+        #mapTile[i,j]['img'] = var
 
 class tile:
 
     def __init__(self, xy):
         self.xy = xy
-        self.n = (xy[0],xy[1])
+        self.n = (1)
         self.img = mapDic[self.n]
 
     def tile(self):
@@ -288,8 +314,8 @@ class tiles:
 
         
         size = map_sizex[1] * map_sizey [1]
-        for i in range (map_sizex[0], map_sizex[1]):
-            for j in range (map_sizey[0], map_sizey[1]):
+        for i in range (map_sizex[0], map_size[0], zoomv):
+            for j in range (map_sizey[0], map_size[1], zoomv):
                 t = tile([i,j])
                 mapTile[i,j] = t.tile()
                 
@@ -320,9 +346,11 @@ class mapa:
         self.imgsize = imgsize
 
     def create(self):
-        for i in range (map_sizex[0], map_sizex[1], self.imgsize):
-            for j in range (map_sizey[0], map_sizey[1], self.imgsize):
-                supmapa.blit(base_image[mapDic[i,j]][zoomv],(i,j))
+        
+        for i in range (tilesInMap):
+            #print(i)
+            supmapa.blit(base_image[mapDic[i]['img']][zoomv],(mapDic[i]['pos']))
+        
 
 
 
@@ -336,190 +364,3 @@ mapaactual = mapa(zoomv)
 mapaactual.create()        
 game.play()
 
-#esto pasa por no tener un archivo test vacio... Este es el codigo cuanod un funcionaba bien el tema del mapa, que no iba super lento y era muy grande
-"""
-import pygame, sys, random
-import ctypes
-from VariablesGlobales import *
-
-# This fix the monitor scaling different from 100%
-# Source: https://stackoverflow.com/questions/62775254/why-does-my-pygame-window-not-fit-in-my-4k3840x2160-monitor-scale-of-pygame-w
-if sys.platform == 'win32':
-    # On Windows, the monitor scaling can be set to something besides normal 100%.
-    # PyScreeze and Pillow needs to account for this to make accurate screenshots.
-    # TODO - How does macOS and Linux handle monitor scaling?
-    import ctypes
-    try:
-       ctypes.windll.user32.SetProcessDPIAware()
-    except AttributeError:
-        pass # Windows XP doesn't support monitor scaling, so just do nothing.
-
-pygame.init()
-
-clock = pygame.time.Clock()
-
-screen_size = (1920,1080)
-
-pantallita = pygame.display.set_mode( screen_size )
-
-class game:
-
-    def play():
-
-        global run, move, zoomv, mapaactual
-        
-        while run : 
-
-            #Pintamos la pantalla
-            pantallita.fill(white)
-            
-            mapaactual.create() 
-            
-            pygame.draw.rect(pantallita, (0,0,0), (300 + movex, 300 + movey, 4 + sizex, 40 + sizey))
-            #Vemos si el raton esta en algun borde para mover el mapa
-            border.check(pygame.mouse.get_pos())
-            
-            #Miramos que eventos ocurren
-            for event in pygame.event.get():
-
-                #Miramos si se pulsa la X, de ser asi cerramos el juego
-                if event.type == pygame.QUIT:
-
-                    pygame.quit()
-                    sys.exit()
-                    run = False
-
-                 #Miramos si se pulsa la un boton del raton
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    
-
-                    #
-                    
-                    
-                    #Obtenemos la posicion del raton en la pantalla y llamamos a click
-                    print (pygame.MOUSEBUTTONDOWN)
-                    #print(pygame.mouse.get_pos()[0])
-                    xy = pygame.mouse.get_pos()
-                    #click = raton(pygame.mouse.get_pos(), 1)
-                    #click.click()
-                    
-                if event.type == pygame.MOUSEWHEEL:   
-                    
-                    zoom.zoom(event.y)
-                    
-
-                if event.type == pygame.KEYDOWN:
-                    print(event.key)
-                    if event.key == pygame.K_a: 
-                        print ("holaholita")
-                        #move -= 10
-                    tecla2 = tecla(event.key)
-                    tecla2.move()
-
-            clock.tick(60)
-            pygame.display.update()        
-
-class raton:
-   
-
-    def __init__(self, xy, num):
-        self.xy = xy
-        self.num = num
-    
-    def click(self):
-        
-        if self.num == 1:
-            print ('Hola')
-
-            for i in range (0, screen_size[0]+1):
-                #print (i)
-                objeto = test(i, "holacaracola")
-
-
-class border:
-
-    def check(m):
-        global movex, movey
-        if m[0] >= screen_size[0]-20:
-            movex -= 1
-        if m[0] <= 20:
-            movex += 1
-        if m[1] >= screen_size[1]-20:
-            movey -= 1
-        if m[1] <= 20:
-            movey += 1
-
-
-#class movmap:
-
-    
-
-class tecla:
-    
-
-    def __init__(self, num):
-        self.num = num
-        
-    def move(self):
-        global move
-        if self.num == pygame.K_a:
-            move -= 10
-        if self.num == pygame.K_d:
-            move += 10
-class test:
-    def __init__ (self, num, texto):
-        self.num = num
-        self.texto = texto
-        self.p = "pipa"
-
-class generador:
-    def __init__(self,evento):
-        self.tamano
-        self.cuadrado
-
-class intext:
-
-    def __init__(self,evento):
-        self.evento = evento
-
-
-class zoom:
-
-    def zoom(evento):
-        global zoomv, mapaactual
-        if evento < 5:
-            zoomv = zoomv + evento * 5
-            if zoomv < 5:
-                zoomv = 5
-            mapaactual = mapa(zoomv)
-              
-
-
-
-class mapa:
-
-    def __init__(self, imgsize):
-        self.imgsize = imgsize
-        self.imagen = ("images/image1.png", "images/image2.png")
-        self.base_image = pygame.image.load(self.imagen[0])
-        self.base_image2 = pygame.image.load(self.imagen[1])
-        self.resize1 = mapa.sizemap(self.imgsize, self.base_image)
-        self.resize2 = mapa.sizemap(self.imgsize, self.base_image2)
-
-    def create(self):
-        resize = (self.resize1, self.resize2)
-        for i in range (0 + movex,192 +movex):
-            for j in range (0 + movey ,108 +  movey):
-                pantallita.blit(resize[random.randint(0,1)],(i*self.imgsize,j*self.imgsize))
-
-    def sizemap(imgsize, base_image):
-        
-        red_image = pygame.transform.scale(base_image, (imgsize, imgsize))
-        return red_image
-
-
-mapaactual = mapa(50)
-
-mapaactual.create()        
-game.play()
-"""

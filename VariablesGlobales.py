@@ -19,13 +19,13 @@ zoomvBase = 10
 
 zoomList = [zoomv, zoomv*2, zoomv*4, zoomv*8, zoomv*16]
 
-clicking = {}
+clicking = {1 : False}
 
 map_sizex = [0,1000] 
 map_sizey = [0,1000] 
 
 map_size = [map_sizex[1],map_sizey[1]]
-
+tilesInMap = 0
 
 imagen = {0 : "images/image1.png", 1 : "images/image2.png"}
 
@@ -44,6 +44,7 @@ for image in range(len(imagen.keys())):
 print                       (base_image)            #:D
 
 mapDic = {}
+mapDicXY = {}
 mapTile = {}
 
 selected = []
