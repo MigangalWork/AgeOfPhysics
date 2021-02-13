@@ -47,8 +47,9 @@ class game:
             mapaactual.create() 
             ejeCoordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
             #print (ejeCoordenadas)
-            #if clicking[1] == True:
-                #pygame.draw.rect(pantallita, (0,0,0), (selected[0], selected[1], abs(select[0] - pygame.mouse.get_pos()[1]), 40))
+            if clicking[1]:
+                print(selected)
+                pygame.draw.rect(pantallita, (0,0,0), (selected[0], selected[1], abs(selected[0] - pygame.mouse.get_pos()[1]), 40))
                 
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos(), ejeCoordenadas)
@@ -67,15 +68,15 @@ class game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     
                     clicking[event.button] = True
-                    print (event.button)
+                    # print (event.button)
                     xy = pygame.mouse.get_pos()
                     button = event.button
 
-                    print (selecCasilla.posMouse(xy))
+                    # print (selecCasilla.posMouse(xy))
                     
                     #Obtenemos la posicion del raton en la pantalla y llamamos a click
-                    #print (pygame.MOUSEBUTTONDOWN)
-                    print (xy)
+                    # print (pygame.MOUSEBUTTONDOWN)
+                    # print (xy)
                     
                     
                     
@@ -97,31 +98,31 @@ class game:
 
 
                     if selected == selected2:
-                        if selected[0][0] == -1:
+                        if selected[0] == -1:
                             pass
                         else:
                             if event.button == 3:
-                                genMap.editMap(selected[0][0],selected[0][1],0)
+                                genMap.editMap(selected[0],selected[1],0)
                             else:
-                                genMap.editMap(selected[0][0],selected[0][1],1)
+                                genMap.editMap(selected[0],selected[1],1)
                     
                     else:
                         selectedM = {}
                         casilla = 0
-                        for i in range (selected[0][0], selected2[0][0]+1):
-                            for j in range (selected[0][1], selected2[0][1]+1):
+                        for i in range (selected[0], selected2[0]+1):
+                            for j in range (selected[1], selected2[1]+1):
                                 casilla = casilla + 1
                                 selectedM[casilla] = [i,j]
-                        print (selectedM) 
+                        # print (selectedM) 
                 
                     
                 if event.type == pygame.MOUSEWHEEL:   
-                    print (event.y)
+                    # print (event.y)
                     zooms.zoom(event.y)
                     
 
-                if event.type == pygame.KEYDOWN:
-                    print(event.key)
+                #if event.type == pygame.KEYDOWN:
+                    # print(event.key)
             if menu_abierto or clicking[1]:
                 menu_abierto = menu_prueba.draw_menu((0,0), pantallita, pygame.mouse.get_pos(), clicking[1])
             clock.tick(60)
@@ -137,13 +138,12 @@ class mouse:
         return [self.xy[0] - movex, self.xy[1] - movey]
 
     def click(self):
-        h = {}
         if self.num == 1:
-            h[0] = selecCasilla.selecCasilla(self.xy)
+            h = selecCasilla.selecCasilla(self.xy)
             print(h)
             return (h)
         else:
-            return {0 : [-1,-1]}    
+            return [-1,-1]
 
     def selecMulti(self):
         pass
@@ -229,7 +229,7 @@ class selecUnits:
             
                 unitsSelected[var] = selectedM[i]
                 var = var + 1
-        print(unitsSelected)
+        # print(unitsSelected)
 
 class zooms:
 
@@ -267,7 +267,7 @@ class zooms:
 
         supmapa = pygame.Surface(map_size)
         #supmapa.fill(white)
-        print(zoomv)
+        # print(zoomv)
         genMap.zoomMap()
         mapaactual = mapa(zoomv)
         mapaactual.create()
