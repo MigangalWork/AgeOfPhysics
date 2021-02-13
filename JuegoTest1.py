@@ -227,8 +227,8 @@ class zooms:
 
             zoomv = zoomv * 2
             
-            if zoomv > 80:
-                zoomv = 80
+            if zoomv > zoomvBase*16:
+                zoomv = zoomvBase*16
             else:
                 map_size =  [map_size[0] * 2, map_size[1] * 2]
                 
@@ -241,8 +241,8 @@ class zooms:
         if evento < 0 and evento > -5:
             
             zoomv = zoomv * 0.5
-            if zoomv < 5:
-                zoomv = 5
+            if zoomv < zoomvBase:
+                zoomv = zoomvBase
             else:
                 map_size =  [map_size[0] * 0.5, map_size[1] * 0.5]
                 movex = movex - (0.5 * ejeCoordenadas[0] - ejeCoordenadas[0])
@@ -250,7 +250,7 @@ class zooms:
         
 
         supmapa = pygame.Surface(map_size)
-        supmapa.fill(white)
+        #supmapa.fill(white)
         print(zoomv)
         mapaactual = mapa(zoomv)
         mapaactual.create()
@@ -293,7 +293,27 @@ class tiles:
                 t = tile([i,j])
                 mapTile[i,j] = t.tile()
                 
+class unit:
 
+    def __init__():
+        self.id
+        self.name
+        self.pos
+        self.varDic = {}
+
+    def unit():
+        unitDic = {'id' : self.id, name : self.name, 'pos' : self.pos, 'varDic' : self.varDic}
+        return u
+
+class units:
+
+
+    def unitsGen(numUnits):
+        for i in range(numUnits):
+            unitsDic[id]
+    def editUnits(unit):
+        global unitsDic
+        untisDic[unit['id']] = unit
 
 class mapa:
 

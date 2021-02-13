@@ -14,13 +14,15 @@ sizey = 0
 screen_size = (1000,1000)
 
 mapa = {}
-zoomv = 5
+zoomv = 10
+zoomvBase = 10
+
 zoomList = [zoomv, zoomv*2, zoomv*4, zoomv*8, zoomv*16]
 
 clicking = {}
 
-map_sizex = [0,200] 
-map_sizey = [0,200] 
+map_sizex = [0,1000] 
+map_sizey = [0,1000] 
 
 map_size = [map_sizex[1],map_sizey[1]]
 
@@ -47,3 +49,5 @@ mapTile = {}
 selected = []
 
 selectedM = {}
+
+untisDic = {}
