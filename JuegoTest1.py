@@ -75,7 +75,7 @@ class game:
                 
                 if event.type == pygame.MOUSEBUTTONUP:
                     
-                    xy = (pygame.mouse.get_pos())
+                    xy = pygame.mouse.get_pos()
                     click = mouse(xy, event.button)
                     selected2 = click.click()
 
@@ -256,23 +256,24 @@ class genMap:
         for i in range (map_sizex[0], map_sizex[1]):
             for j in range (map_sizey[0], map_sizey[1]):
                 mapDic[i,j] = random.randint(0,1)
-    
+        
     def editMap(i,j,var):
         global mapDic
         global mapTile
         mapDic[i,j] = var
-        #mapTile[i,j]['img'] = var
+        mapTile[i,j]['img'] = var
 
 class tile:
 
     def __init__(self, xy):
         self.xy = xy
-        #self.img = mapDic[xy]
+        self.n = (xy[0],xy[1])
+        self.img = mapDic[self.n]
 
     def tile(self):
-        #t = {'pos' : self.xy, 'visible' : True, 'visibleBy' : 1, 'img' : mapDic[self.xy], 'unit' : false}
-        #return (t) 
-        pass
+        t = {'pos' : self.xy, 'visible' : True, 'visibleBy' : 1, 'img' : mapDic[self.n], 'unit' : False}
+        return (t) 
+        #pass
 
 class tiles:
 
@@ -284,7 +285,7 @@ class tiles:
             for j in range (map_sizey[0], map_sizey[1]):
                 t = tile([i,j])
                 mapTile[i,j] = t.tile()
-                print(mapTile)
+                
 
 
 class mapa:
@@ -312,7 +313,7 @@ class mapa:
 
 genMap.genMap()
 
-#tiles.tiles()
+tiles.tiles()
 
 mapaactual = mapa(zoomv)
 
