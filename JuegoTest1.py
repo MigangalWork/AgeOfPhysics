@@ -1,6 +1,14 @@
 import pygame, sys, random
 import ctypes
 from VariablesGlobales import *
+from Menus import Menus
+
+func_list = ['prueba_click("conf")', 'prueba_click("canc")']
+text_list= [ 'Confirmar', 'Calcelar']
+menu_prueba = Menus(200, 100, 2, func_list, text_list)
+
+def prueba_click(text):
+    print(text)
 
 # This fix the monitor scaling different from 100%
 # Source: https://stackoverflow.com/questions/62775254/why-does-my-pygame-window-not-fit-in-my-4k3840x2160-monitor-scale-of-pygame-w
@@ -10,7 +18,7 @@ if sys.platform == 'win32':
     # TODO - How does macOS and Linux handle monitor scaling?
     import ctypes
     try:
-       ctypes.windll.user32.SetProcessDPIAware()
+        ctypes.windll.user32.SetProcessDPIAware()
     except AttributeError:
         pass # Windows XP doesn't support monitor scaling, so just do nothing.
 
@@ -29,7 +37,7 @@ class game:
     def play():
 
         global run, move, zoomv, movex, movey, ejeCoordenadas, clicking
-        
+        menu_abierto = False
         while run : 
 
             #Pintamos la pantalla
@@ -55,7 +63,7 @@ class game:
                     sys.exit()
                     run = False
 
-                 #Miramos si se pulsa la un boton del raton
+                #Miramos si se pulsa la un boton del raton
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     
                     clicking[event.button] = True
@@ -69,10 +77,12 @@ class game:
                     #print (pygame.MOUSEBUTTONDOWN)
                     print (xy)
                     
-
-                        
+                    
+                    
                     #print(pygame.mouse.get_pos()[0])
                     click = mouse(pygame.mouse.get_pos(), button)
+                    
+                    
                     selected = click.click()
                     
 
@@ -112,19 +122,18 @@ class game:
 
                 if event.type == pygame.KEYDOWN:
                     print(event.key)
-                    
-            
+            if menu_abierto or clicking[1]:
+                menu_abierto = menu_prueba.draw_menu((0,0), pantallita, pygame.mouse.get_pos(), clicking[1])
             clock.tick(60)
             pygame.display.update()        
 
 class mouse:
-   
 
     def __init__(self, xy, num):
         self.xy = xy
         self.num = num
 
-    def posMouse():
+    def posMouse(self):
         return [self.xy[0] - movex, self.xy[1] - movey]
 
     def click(self):
@@ -136,7 +145,7 @@ class mouse:
         else:
             return {0 : [-1,-1]}    
 
-    def selecMulti():
+    def selecMulti(self):
         pass
         
 
@@ -212,15 +221,16 @@ class selecCasilla:
 
 class selecUnits:
 
-    def selecUnits():
+    def selecUnits(madDic):
         var = 0
-        for i in lenght(selectedM):
+        unitsSelected = {}
+        for i in len(selectedM):
             if madDic[selectedM[i]] == 1:
             
                 unitsSelected[var] = selectedM[i]
                 var = var + 1
         print(unitsSelected)
-              
+
 class zooms:
 
     def zoom(evento):
@@ -265,7 +275,7 @@ class zooms:
 
 class genMap:
     
-    def genMap ():
+    def genMap():
         global mapDic, tilesInMap
         mapDic = {}
         tilesInMap = 0
@@ -290,7 +300,7 @@ class genMap:
         #for i in range(tilesInMap):
         #    mapDic[var]['pos']      
 
-    def editMap(i,j,var):
+    def editMap(i, j, var):
         global mapDic
         global mapTile
         mapDic[i]['img'] = var
@@ -308,20 +318,9 @@ class tile:
         return (t)
         #pass
 
-class tiles:
+'''class unit:
 
-    def tiles():
-
-        
-        size = map_sizex[1] * map_sizey [1]
-        for i in range (map_sizex[0], map_size[0], zoomv):
-            for j in range (map_sizey[0], map_size[1], zoomv):
-                t = tile([i,j])
-                mapTile[i,j] = t.tile()
-                
-class unit:
-
-    def __init__():
+    def __init__(self):
         self.id
         self.name
         self.pos
@@ -333,13 +332,21 @@ class unit:
 
 class units:
 
-
-    def unitsGen(numUnits):
+    def unitsGen(self, numUnits):
         for i in range(numUnits):
             unitsDic[id]
-    def editUnits(unit):
+    def editUnits(self, unit):
         global unitsDic
-        untisDic[unit['id']] = unit
+        untisDic[unit['id']] = unit'''
+
+class tiles:
+    def tiles():
+        size = map_sizex[1] * map_sizey [1]
+        for i in range (map_sizex[0], map_size[0], zoomv):
+            for j in range (map_sizey[0], map_size[1], zoomv):
+                t = tile([i,j])
+                mapTile[i,j] = t.tile()
+
 
 class mapa:
     def __init__(self, imgsize):
@@ -350,7 +357,6 @@ class mapa:
         for i in range (tilesInMap):
             #print(i)
             supmapa.blit(base_image[mapDic[i]['img']][zoomv],(mapDic[i]['pos']))
-        
 
 
 
@@ -361,6 +367,5 @@ tiles.tiles()
 mapaactual = mapa(zoomv)
 
 
-mapaactual.create()        
+mapaactual.create()
 game.play()
-
