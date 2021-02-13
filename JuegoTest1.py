@@ -36,7 +36,7 @@ class game:
 
     def play():
 
-        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking
+        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin
         menu_abierto = False
         while run : 
 
@@ -45,18 +45,28 @@ class game:
             pantallita.blit(supmapa, (0 + movex, 0 + movey))
             supmapa.fill(white)
             mapaactual.create() 
+
+            #Actualizacion de variables
+
+
             ejeCoordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
-            #print (ejeCoordenadas)
+            clickedMap = [(clickedMapOrigin[0] + movex) + clickedMapOrigin[0] * zoomv, (clickedMapOrigin[1] + movex) + clickedMapOrigin[1] * zoomv]
+
+
+
+
+            print(clickedMap)
             if clicking[1] and selected[0]!=-1:
-                pixel_selected_x = selected[0]*zoomv
-                pixel_selected_y = selected[1]*zoomv
+                pixel_selected_x = clickedMap[0]
+                pixel_selected_y = clickedMap[1]
                 mx, my = pygame.mouse.get_pos()
 
                 if pixel_selected_x > mx:
                     pixel_selected_x = mx
                 if pixel_selected_y > my:
                     pixel_selected_y = my
-                pygame.draw.rect(pantallita, (0,0,0), (pixel_selected_x, pixel_selected_y, abs(selected[0]*zoomv - mx), abs(selected[1]*zoomv - my)))
+                print(clickedMap)    
+                pygame.draw.rect(pantallita, (0,0,0), (clickedMap[0], clickedMap[1], abs(clickedMap[0] - mx), abs(clickedMap[1] - my)))
                 
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos(), ejeCoordenadas)
@@ -75,22 +85,15 @@ class game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     
                     clicking[event.button] = True
-                    # print (event.button)
-                    xy = pygame.mouse.get_pos()
+    
+                    #definimos el objeto click
+                    click = mouse(pygame.mouse.get_pos(), event.button)
+                    
+                    #Variables de click
                     button = event.button
-
-                    # print (selecCasilla.posMouse(xy))
-                    
-                    #Obtenemos la posicion del raton en la pantalla y llamamos a click
-                    # print (pygame.MOUSEBUTTONDOWN)
-                    # print (xy)
-                    
-                    
-                    
-                    #print(pygame.mouse.get_pos()[0])
-                    click = mouse(pygame.mouse.get_pos(), button)
-                    
-                    
+                    clicked = pygame.mouse.get_pos()
+                    clickedMap = click.posMouse()
+                    clickedMapOrigin = [clickedMap[0],clickedMap[0]]
                     selected = click.click()
                     
 
@@ -99,8 +102,8 @@ class game:
 
                     clicking[event.button] = False
 
-                    xy = pygame.mouse.get_pos()
-                    click = mouse(xy, event.button)
+                    unClicked = pygame.mouse.get_pos()
+                    
                     selected2 = click.click()
 
 
@@ -130,8 +133,12 @@ class game:
 
                 #if event.type == pygame.KEYDOWN:
                     # print(event.key)
+
+                    
             if menu_abierto or clicking[1]:
                 menu_abierto = menu_prueba.draw_menu((0,0), pantallita, pygame.mouse.get_pos(), clicking[1])
+
+
             clock.tick(60)
             pygame.display.update()        
 
@@ -289,7 +296,7 @@ class genMap:
         for i in range (map_sizex[0], map_size[0], zoomv):
             for j in range (map_sizey[0], map_size[1], zoomv):
                 
-                mapDic[tilesInMap] = {'img' : random.randint(0,1), 'pos' : (i,j)}
+                mapDic[tilesInMap] = {'img' : random.randint(0,4), 'pos' : (i,j)}
                 mapDicXY[i,j] = {'img' : mapDic[tilesInMap], 'pos' : tilesInMap}
                 tilesInMap = tilesInMap + 1
 

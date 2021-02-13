@@ -27,7 +27,7 @@ map_sizey = [0,1000]
 map_size = [map_sizex[1],map_sizey[1]]
 tilesInMap = 0
 
-imagen = {0 : "images/image1.png", 1 : "images/image2.png"}
+imagen = {0 : "images/image1.png", 1 : "images/image2.png", 2 : "images/grass1.png", 3 : "images/floor1.jpg", 4 : "images/floor2.jpg"}
 
 base_image = {}
 class sizemap:
@@ -47,10 +47,21 @@ mapDic = {}
 mapDicXY = {}
 mapTile = {}
 
-selected = []
+#Raton
 
+clicked = [0, 0]
+clickedMap = [0, 0]
+clickedMapOrigin = [0, 0]
+unClicked = []
+unClickedMap = []
+selected = []
+baseEleccion = []
 selectedM = {}
 
 untisDic = {}
 
 vel_mov_mapa = [1, 1]
+
+#menus
+
+menusActivos = {}
