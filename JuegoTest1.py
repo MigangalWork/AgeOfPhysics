@@ -28,7 +28,7 @@ class game:
 
     def play():
 
-        global run, move, zoomv, movex, movey, ejeCoordenadas
+        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking
         
         while run : 
 
@@ -56,7 +56,8 @@ class game:
                  #Miramos si se pulsa la un boton del raton
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     
-
+                    clicking[event.button] = True
+                    print (event.button)
                     xy = pygame.mouse.get_pos()
                     button = event.button
 
@@ -71,10 +72,13 @@ class game:
                     #print(pygame.mouse.get_pos()[0])
                     click = mouse(pygame.mouse.get_pos(), button)
                     selected = click.click()
+                    
 
                 
                 if event.type == pygame.MOUSEBUTTONUP:
-                    
+
+                    clicking[event.button] = False
+
                     xy = pygame.mouse.get_pos()
                     click = mouse(xy, event.button)
                     selected2 = click.click()
@@ -221,19 +225,22 @@ class zooms:
         
         if evento > 0 and evento < 5:
 
-            zoomv = int(zoomv * 2)
+            zoomv = zoomv * 2
             
             if zoomv > 80:
                 zoomv = 80
             else:
                 map_size =  [map_size[0] * 2, map_size[1] * 2]
                 
-                movex = movex - (2 * ejeCoordenadas[0] - ejeCoordenadas[0])
-                movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
+                #movex = movex - (2 * ejeCoordenadas[0] - ejeCoordenadas[0])
+                movex = movex - ejeCoordenadas[0]
+
+                #movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
+                movey = movey - ejeCoordenadas[1]
 
         if evento < 0 and evento > -5:
             
-            zoomv = int(zoomv * 0.5)
+            zoomv = zoomv * 0.5
             if zoomv < 5:
                 zoomv = 5
             else:
@@ -272,7 +279,7 @@ class tile:
 
     def tile(self):
         t = {'pos' : self.xy, 'visible' : True, 'visibleBy' : 1, 'img' : mapDic[self.n], 'unit' : False}
-        return (t) 
+        return (t)
         #pass
 
 class tiles:
@@ -293,22 +300,13 @@ class mapa:
     def __init__(self, imgsize):
         self.imgsize = imgsize
         self.base_image = base_image
-        self.resize = {}
-        for i in range(len(imagen.keys())):
-            self.resize[i] = mapa.sizemap(self.imgsize, base_image[i])
-        
-
 
     def create(self):
-        resize = (self.resize[0], self.resize[1])
+        
         for i in range (map_sizex[0], map_sizex[1]):
             for j in range (map_sizey[0], map_sizey[1]):
-                supmapa.blit(resize[mapDic[i,j]],(i*self.imgsize,j*self.imgsize))
+                supmapa.blit(base_image[mapDic[i,j]][zoomv],(i*self.imgsize,j*self.imgsize))
 
-    def sizemap(imgsize, base_image):
-        
-        red_image = pygame.transform.scale(base_image, (imgsize, imgsize))
-        return red_image
 
 
 genMap.genMap()
