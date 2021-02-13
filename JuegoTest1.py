@@ -47,9 +47,16 @@ class game:
             mapaactual.create() 
             ejeCoordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
             #print (ejeCoordenadas)
-            if clicking[1]:
-                print(selected)
-                pygame.draw.rect(pantallita, (0,0,0), (selected[0], selected[1], abs(selected[0] - pygame.mouse.get_pos()[1]), 40))
+            if clicking[1] and selected[0]!=-1:
+                pixel_selected_x = selected[0]*zoomv
+                pixel_selected_y = selected[1]*zoomv
+                mx, my = pygame.mouse.get_pos()
+
+                if pixel_selected_x > mx:
+                    pixel_selected_x = mx
+                if pixel_selected_y > my:
+                    pixel_selected_y = my
+                pygame.draw.rect(pantallita, (0,0,0), (pixel_selected_x, pixel_selected_y, abs(selected[0]*zoomv - mx), abs(selected[1]*zoomv - my)))
                 
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos(), ejeCoordenadas)
@@ -155,16 +162,16 @@ class border:
         global movex, movey
         if eje[0] < map_size[0]:
             if m[0] >= screen_size[0]-20:
-                movex -= 1
+                movex -= int(vel_mov_mapa[0] * zoomv/3)
         if eje[0] > 0 :
             if m[0] <= 20:
-                movex += 1
+                movex += int(vel_mov_mapa[0] * zoomv/3)
         if eje[1] < map_size[1]:
             if m[1] >= screen_size[1]-20:
-                movey -= 1
+                movey -= int(vel_mov_mapa[1] * zoomv/3)
         if eje[1] > 0 :        
             if m[1] <= 20:
-                movey += 1
+                movey += int(vel_mov_mapa[1] * zoomv/3)
 
 
 #class movmap:

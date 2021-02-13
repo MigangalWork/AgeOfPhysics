@@ -52,3 +52,5 @@ selected = []
 selectedM = {}
 
 untisDic = {}
+
+vel_mov_mapa = [1, 1]
