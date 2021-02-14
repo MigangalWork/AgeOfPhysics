@@ -42,12 +42,17 @@ def draw_text_centered(text, font, color, surface, x, y):
 class Menus:
 
     def menuClicked(xy):
-        for i in range(0,len(menusActivos)):
-            key = list(menusActivos.keys())[i]
-            if menusActivos[key].collidepoint(xy):
+        for menuActivo in menusActivos.values():
+            if menuActivo.collidepoint(xy):
                 
                 return True
         return False
+
+    def test(x):
+        return x.collidepoint(xy)
+
+    def menuClicked_alternative(xy):
+        return any(map(lambda x: x.collidepoint(xy), menusActivos.values()))
 
     def menuAdd(x,y,width,height,id):
         global menusActivos
@@ -59,10 +64,9 @@ class Menus:
         del menusActivos[id]
 
     def menuDraw():
-        for i in range(0,len(menusActivos)):
+        for key in menusActivos.keys():
             #myIter = iter(menusActivos) no se como usarlo pero es significativamente mas eficiente y nos vendira bien
             #key = next(myIter)
-            key = list(menusActivos.keys())[i]
             x = menus[key]['x']
             y = menus[key]['y']
             width = menus[key]['width']
