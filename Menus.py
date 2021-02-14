@@ -1,5 +1,6 @@
 import pygame
 from VariablesGlobales import menusActivos, menus, buttons, buttonsActivos
+#from JuegoTest1 import *
 '''
 class Menus:
     def __init__(self, menu_width, menu_height, n_buttons, func_list, text_list):
@@ -67,6 +68,8 @@ class Menus:
             width = menus[key]['width']
             height = menus[key]['height']
             screen = menus[key]['screen']
+            #pantallita.blit(key, (0,0))
+
             pygame.draw.rect(screen, (0, 0, 0), (x,y,width, height))
 
 class Menu:
@@ -81,6 +84,7 @@ class Menu:
         self.buttons = buttons
         self.id = id
         menus[id] = {'x' : self.x, 'y' : self.y, 'width' : self.width, 'height' : self.height, 'screen' : self.screen, 'buttons' : self.buttons}
+        #self.surface = pygame.Surface((x,y))
 
 
     def activateMenu(self): 

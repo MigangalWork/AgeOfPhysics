@@ -42,11 +42,13 @@ for image in range(len(imagen.keys())):
     for size in zoomList:
         base_image[image][size] = sizemap.sizemap(size,baseImage)
 
-print                       (base_image)            #:D
+
 
 mapDic = {}
 mapDicXY = {}
 mapTile = {}
+
+
 
 #Raton
 
@@ -72,3 +74,10 @@ menusActivos = {}
 
 buttons = {}
 buttonsActivos = {}
+
+#Unidades
+
+units = {}
+unitsInGame = {}
+armiesInGame = []
+numberOfArmies = 0

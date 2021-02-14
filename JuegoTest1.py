@@ -1,7 +1,10 @@
 import pygame, sys, random
 import ctypes
 from VariablesGlobales import *
-from Menus import *
+import Menus, Units
+from Units import *
+from Menus import Menu, Menus
+from ButtonsAndMenus import *
 '''
 func_list = ['prueba_click("conf")', 'prueba_click("canc")']
 text_list= [ 'Confirmar', 'Calcelar']
@@ -31,12 +34,17 @@ clickMap = False
 pantallita = pygame.display.set_mode( screen_size )
 supmapa = pygame.Surface(map_size)
 pantallita.blit(supmapa, (0,0))
+print(base_image[0])
+#Unidades
+
+baseUnit = Unit('unitdad', base_image[0], [], 0)
+
 
 class game:
 
     def play():
 
-        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin, clickMap
+        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin, clickMap, supmapa
         menu_abierto = False
         while run : 
 
@@ -46,9 +54,15 @@ class game:
             supmapa.fill(white)
             mapaactual.create() 
 
+
+            #Pintamos unidades
+            
+            unitsGroup.draw(supmapa)
+            unitsGroup.update(zoomv)
+            
             #Pintamos menus
             Menus.menuDraw()
-
+               
             #Actualizacion de variables
 
 
@@ -79,7 +93,7 @@ class game:
 
                 #Miramos si se pulsa la un boton del raton
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    
+
                     clicking[event.button] = True
 
                     #definimos el objeto click
@@ -88,12 +102,15 @@ class game:
                     #Variables de click
                     button = event.button
                     clicked = pygame.mouse.get_pos()
-                    clickedMap = clicked
+
                     clickedMap = click.posMouse()
                     clickedMapOrigin = [clickedMap[0],clickedMap[0]]
                     if Menus.menuClicked(clicked) == True:
                         key = Buttons.buttonClicked(clicked)
                     else:
+
+                        newUnit = UnitInGame(clickedMap[0],clickedMap[1],0)
+                        print(unitsGroup)
                         selected = click.click()
                         clickMap = True
 
@@ -132,7 +149,9 @@ class game:
                 if event.type == pygame.MOUSEWHEEL:   
                     # print (event.y)
                     zooms.zoom(event.y)
-                    
+                    #supmapa = pygame.transform.scale(pantallita, (map_size[0] + 10, map_size[1] + 10))
+                    #map_size[0] = map_size[0] + 10 
+                    #map_size[1]= map_size[1] + 10 
 
                 #if event.type == pygame.KEYDOWN:
                     # print(event.key)
@@ -284,7 +303,7 @@ class zooms:
 
         supmapa = pygame.Surface(map_size)
         #supmapa.fill(white)
-        # print(zoomv)
+        print(zoomv)
         genMap.zoomMap()
         mapaactual = mapa(zoomv)
         mapaactual.create()
@@ -385,8 +404,12 @@ mapaactual = mapa(zoomv)
 
 mapaactual.create()
 
-menu = Menu( 0, 800, 1000, 200, pantallita, [], 0)
+MenuCreators.mainMenus(pantallita)
+'''
+menu = Menu( 0, 800, 1000, 200, pantallita, [], 00)
 menu.activateMenu()
-menu2 = Menu( 0, 0, 1000, 80, pantallita, [], 1)
+menu2 = Menu( 0, 0, 1000, 80, pantallita, [], 10)
 menu2.activateMenu()
+'''
+
 game.play()
