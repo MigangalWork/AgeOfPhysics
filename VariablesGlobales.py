@@ -38,6 +38,7 @@ class sizemap:
 for image in range(len(imagen.keys())):
     baseImage = pygame.image.load(imagen[image])
     base_image[image] = {}
+    
     for size in zoomList:
         base_image[image][size] = sizemap.sizemap(size,baseImage)
 
@@ -64,4 +65,10 @@ vel_mov_mapa = [1, 1]
 
 #menus
 
+menus = {}
 menusActivos = {}
+
+#buttons
+
+buttons = {}
+buttonsActivos = {}

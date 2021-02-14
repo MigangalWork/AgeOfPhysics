@@ -1,5 +1,6 @@
 import pygame
-
+from VariablesGlobales import menusActivos, menus, buttons, buttonsActivos
+'''
 class Menus:
     def __init__(self, menu_width, menu_height, n_buttons, func_list, text_list):
         self.menu_width = menu_width
@@ -23,7 +24,6 @@ class Menus:
                 eval(self.func_list[i])
                 return False
         return True
-
 def prueba_click(text):
     print(text)
 
@@ -34,3 +34,108 @@ def draw_text_centered(text, font, color, surface, x, y):
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
+
+    '''
+
+class Menus:
+
+    def menuClicked(xy):
+        for i in range(0,len(menusActivos)):
+            key = list(menusActivos.keys())[i]
+            if menusActivos[key].collidepoint(xy):
+                
+                return True
+        return False
+
+    def menuAdd(x,y,width,height,id):
+        global menusActivos
+        menu = pygame.Rect((x, y, width, height))
+        menusActivos[id] = menu
+        print(menusActivos)
+    
+    def menuErase(id):
+        del menusActivos[id]
+
+    def menuDraw():
+        for i in range(0,len(menusActivos)):
+            #myIter = iter(menusActivos) no se como usarlo pero es significativamente mas eficiente y nos vendira bien
+            #key = next(myIter)
+            key = list(menusActivos.keys())[i]
+            x = menus[key]['x']
+            y = menus[key]['y']
+            width = menus[key]['width']
+            height = menus[key]['height']
+            screen = menus[key]['screen']
+            pygame.draw.rect(screen, (0, 0, 0), (x,y,width, height))
+
+class Menu:
+
+    def __init__(self, x, y, width, height, screen, buttons, id):
+        global menus
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.screen = screen
+        self.buttons = buttons
+        self.id = id
+        menus[id] = {'x' : self.x, 'y' : self.y, 'width' : self.width, 'height' : self.height, 'screen' : self.screen, 'buttons' : self.buttons}
+
+
+    def activateMenu(self): 
+        Menus.menuAdd(self.x, self.y, self.width, self.height, self.id) 
+        for i in self.buttons:
+            key = self.buttons[i]
+            x = button[key]['x']
+            y = button[key]['y']
+            width = button[key]['width']
+            height = button[key]['height']
+            Buttons.buttonAdd(x,y,width,height,key)
+
+
+class Buttons:
+
+    def buttonClicked(xy):
+        for i in range(0,len(buttonsActivos)):
+            key = list(buttonsActivos.keys())[i]
+            if buttonsActivos[key].collidepoint(xy):
+                
+                return key
+        return -1
+
+    def buttonAdd(x,y,width,height,id):
+        global buttonsActivos
+        button = pygame.Rect((x, y, width, height))
+        buttonsActivos[id] = button
+    
+    def buttonErase(id):
+        del buttonsActivos[id]
+
+    def buttonDraw():
+        for i in range(0,len(buttonsActivos)):
+            #myIter = iter(menusActivos) no se como usarlo pero es significativamente mas eficiente y nos vendira bien
+            #key = next(myIter)
+            key = list(menusActivos.keys())[i]
+            x = button[key]['x']
+            y = button[key]['y']
+            width = button[key]['width']
+            height = button[key]['height']
+            screen = button[key]['screen']
+            pygame.draw.rect(screen, (255, 0, 0), (x,y,width, height))
+
+class Button:
+
+    def __init__(self, x, y, width, height, screen, id, function):
+        global menus
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.screen = screen
+        self.function
+        self.id = id
+        buttons[id] = {'x' : self.x, 'y' : self.y, 'width' : self.width, 'height' : self.height, 'screen' : self.screen, 'function' : self.function}
+
+
+    def activateButton(self): 
+        Buttons.buttonAdd(self.x, self.y, self.width, self.height, self.id, self.function)

@@ -1,15 +1,15 @@
 import pygame, sys, random
 import ctypes
 from VariablesGlobales import *
-from Menus import Menus
-
+from Menus import *
+'''
 func_list = ['prueba_click("conf")', 'prueba_click("canc")']
 text_list= [ 'Confirmar', 'Calcelar']
 menu_prueba = Menus(200, 100, 2, func_list, text_list)
 
 def prueba_click(text):
     print(text)
-
+'''
 # This fix the monitor scaling different from 100%
 # Source: https://stackoverflow.com/questions/62775254/why-does-my-pygame-window-not-fit-in-my-4k3840x2160-monitor-scale-of-pygame-w
 if sys.platform == 'win32':
@@ -26,7 +26,7 @@ pygame.init()
 
 clock = pygame.time.Clock()
 ejeCoordenadas = [0,0]
-
+clickMap = False
 
 pantallita = pygame.display.set_mode( screen_size )
 supmapa = pygame.Surface(map_size)
@@ -36,7 +36,7 @@ class game:
 
     def play():
 
-        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin
+        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin, clickMap
         menu_abierto = False
         while run : 
 
@@ -46,20 +46,23 @@ class game:
             supmapa.fill(white)
             mapaactual.create() 
 
+            #Pintamos menus
+            Menus.menuDraw()
+
             #Actualizacion de variables
 
 
             ejeCoordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
             # clickedMap = [(clickedMapOrigin[0] + movex) + clickedMapOrigin[0] * zoomv, (clickedMapOrigin[1] + movex) + clickedMapOrigin[1] * zoomv]
 
-            if clicking[1] and selected[0]!=-1:
+            if clickMap == True and clicking[1] and selected[0]!=-1:
                 mx, my =  pygame.mouse.get_pos()
                 
                 pixel_selected_x = min(clickedMap[0], mx)
                 pixel_selected_y = min(clickedMap[1], my)
                 pixel_other_pos_x = max(clickedMap[0], mx)
                 pixel_other_pos_y = max(clickedMap[1], my)
-                pygame.draw.rect(pantallita, (0,0,0), (pixel_selected_x, pixel_selected_y, abs(pixel_selected_x - pixel_other_pos_x), abs(pixel_selected_y - pixel_other_pos_y)), 10)
+                pygame.draw.rect(pantallita, (0,0,0), (pixel_selected_x, pixel_selected_y, abs(pixel_selected_x - pixel_other_pos_x), abs(pixel_selected_y - pixel_other_pos_y)), 5)
 
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos(), ejeCoordenadas)
@@ -86,14 +89,22 @@ class game:
                     button = event.button
                     clicked = pygame.mouse.get_pos()
                     clickedMap = clicked
-                    #clickedMap = click.posMouse()
-                    #clickedMapOrigin = [clickedMap[0],clickedMap[0]]
-                    selected = click.click()
+                    clickedMap = click.posMouse()
+                    clickedMapOrigin = [clickedMap[0],clickedMap[0]]
+                    if Menus.menuClicked(clicked) == True:
+                        key = Buttons.buttonClicked(clicked)
+                    else:
+                        selected = click.click()
+                        clickMap = True
 
                 if event.type == pygame.MOUSEBUTTONUP:
 
                     clicking[event.button] = False
-
+                    clickMap = False
+                    if clickMap:
+                        pass
+                    else:
+                        pass
                     unClicked = pygame.mouse.get_pos()
                     
                     selected2 = click.click()
@@ -127,8 +138,8 @@ class game:
                     # print(event.key)
 
                     
-            if menu_abierto or clicking[1]:
-                menu_abierto = menu_prueba.draw_menu((0,0), pantallita, pygame.mouse.get_pos(), clicking[1])
+            #if menu_abierto or clicking[1]:
+             #   menu_abierto = menu_prueba.draw_menu((0,0), pantallita, pygame.mouse.get_pos(), clicking[1])
 
 
             clock.tick(60)
@@ -301,7 +312,6 @@ class genMap:
                 
                 mapDic[var]['pos'] = (i,j)
                 var = var + 1
-        #print(mapDic)
         
         #for i in range(tilesInMap):
         #    mapDic[var]['pos']      
@@ -374,4 +384,9 @@ mapaactual = mapa(zoomv)
 
 
 mapaactual.create()
+
+menu = Menu( 0, 800, 1000, 200, pantallita, [], 0)
+menu.activateMenu()
+menu2 = Menu( 0, 0, 1000, 80, pantallita, [], 1)
+menu2.activateMenu()
 game.play()
