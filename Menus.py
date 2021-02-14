@@ -26,7 +26,7 @@ class Menus:
         return True
 def prueba_click(text):
     print(text)
-
+'''
 def draw_text_centered(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     x -= textobj.get_width()/2
@@ -35,7 +35,8 @@ def draw_text_centered(text, font, color, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-    '''
+
+
 
 class Menus:
 
@@ -125,7 +126,7 @@ class Buttons:
 
 class Button:
 
-    def __init__(self, x, y, width, height, screen, id, function):
+    def __init__(self, x, y, width, height, screen, function, id):
         global menus
         self.x = x
         self.y = y
