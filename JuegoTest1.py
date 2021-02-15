@@ -44,7 +44,7 @@ pantallita.blit(supmapa, (0,0))
 baseUnit = Unit('unitdad', base_image[0], [], 0)
 '''
 
-text = Text(pantallita, {'x' : 200, 'y' : 200, 'width' : 200, 'height' : 40})
+text = Text(pantallita, {'x' : 200, 'y' : 200, 'width' : 200, 'height' : 40}, 10, (255,255,255))
 
 class game:
 
@@ -59,7 +59,8 @@ class game:
             pantallita.blit(supmapa, (0 + movex, 0 + movey))
             supmapa.fill(white)
             mapaactual.create() 
-
+            if textActive == True:
+                    text.textUpdate()
 
             #Pintamos unidades
             
