@@ -44,7 +44,7 @@ class Menus:
     def menuClicked(xy):
         for menuActivo in menusActivos.values():
             if menuActivo.collidepoint(xy):
-                print(menu)
+                print(menuActivo)
                 return True
         return False
 
@@ -99,7 +99,8 @@ class Menu:
             y = buttons[key]['y']
             width = buttons[key]['width']
             height = buttons[key]['height']
-            Buttons.buttonAdd(x,y,width,height,key)
+            surface = menusActivos[self.id]
+            Buttons.buttonAdd(x,y,width,height,key,surface)
 
 
 class Buttons:

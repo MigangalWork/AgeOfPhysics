@@ -6,6 +6,7 @@ import Menus, Units, Map
 from Units import *
 from Menus import Menu, Menus, Buttons
 from ButtonsAndMenus import *
+from Text import Text
 '''
 func_list = ['prueba_click("conf")', 'prueba_click("canc")']
 text_list= [ 'Confirmar', 'Calcelar']
@@ -43,11 +44,13 @@ pantallita.blit(supmapa, (0,0))
 baseUnit = Unit('unitdad', base_image[0], [], 0)
 '''
 
+text = Text(pantallita, {'x' : 200, 'y' : 200, 'width' : 200, 'height' : 40})
+
 class game:
 
     def play():
 
-        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin, clickMap, supmapa, selected
+        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin, clickMap, supmapa, selected, textActive
         menu_abierto = False
         while run : 
 
@@ -86,7 +89,8 @@ class game:
             
             #Miramos que eventos ocurren
             for event in pygame.event.get():
-
+                global evento
+                evento = event
                 #Miramos si se pulsa la X, de ser asi cerramos el juego
                 if event.type == pygame.QUIT:
 
@@ -110,8 +114,9 @@ class game:
                     clickedMapOrigin = [clickedMap[0],clickedMap[0]]
                     if Menus.menuClicked(clicked) == True:
                         key = Buttons.buttonClicked(clicked)
+                        textActive = True
                     else:
-
+                        textActive = False
                         #newUnit = UnitInGame(clickedMap[0],clickedMap[1],0)
                         #print(unitsGroup)
                         selected = click.click()
@@ -129,7 +134,7 @@ class game:
                     
                     selected2 = click.click()
 
-
+                    '''
                     if selected == selected2:
                         if selected[0] == -1:
                             pass
@@ -147,7 +152,7 @@ class game:
                                 casilla = casilla + 1
                                 selectedM[casilla] = [i,j]
                         # print (selectedM) 
-                
+                    '''                
                     
                 if event.type == pygame.MOUSEWHEEL:   
                     # print (event.y)
@@ -158,7 +163,9 @@ class game:
 
                 #if event.type == pygame.KEYDOWN:
                     # print(event.key)
-
+                if textActive == True:
+                    text.textEdit(event)
+                    text.textUpdate()
                     
             #if menu_abierto or clicking[1]:
              #   menu_abierto = menu_prueba.draw_menu((0,0), pantallita, pygame.mouse.get_pos(), clicking[1])

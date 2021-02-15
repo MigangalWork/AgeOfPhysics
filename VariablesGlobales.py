@@ -81,3 +81,7 @@ units = {}
 unitsInGame = {}
 armiesInGame = []
 numberOfArmies = 0
+
+#Texto
+
+textActive = False
