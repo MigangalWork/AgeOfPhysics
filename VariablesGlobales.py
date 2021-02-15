@@ -11,7 +11,7 @@ movex = 0
 movey = 0
 sizex = 0
 sizey = 0
-screen_size = (1000,1000)
+screen_size = (500,500)
 
 mapa = {}
 zoomv = 10
@@ -21,8 +21,8 @@ zoomList = [zoomv, zoomv*2, zoomv*4, zoomv*8, zoomv*16]
 
 clicking = {1 : False}
 
-map_sizex = [0,1000] 
-map_sizey = [0,1000] 
+map_sizex = [0,500] 
+map_sizey = [0,500] 
 
 map_size = [map_sizex[1],map_sizey[1]]
 tilesInMap = 0

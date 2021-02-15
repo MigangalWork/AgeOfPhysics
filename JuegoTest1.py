@@ -39,9 +39,9 @@ pantallita.blit(supmapa, (0,0))
 #Unidades
 
 
-
+'''
 baseUnit = Unit('unitdad', base_image[0], [], 0)
-
+'''
 
 class game:
 
@@ -112,8 +112,8 @@ class game:
                         key = Buttons.buttonClicked(clicked)
                     else:
 
-                        newUnit = UnitInGame(clickedMap[0],clickedMap[1],0)
-                        print(unitsGroup)
+                        #newUnit = UnitInGame(clickedMap[0],clickedMap[1],0)
+                        #print(unitsGroup)
                         selected = click.click()
                         clickMap = True
 
@@ -308,7 +308,7 @@ class zooms:
         #supmapa.fill(white)
         print(zoomv)
         genMap.zoomMap()
-        mapaactual = mapa(zoomv)
+        mapaactual = Mapa(zoomv)
         mapaactual.create()
 
 

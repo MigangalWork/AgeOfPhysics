@@ -95,10 +95,10 @@ class Menu:
         Menus.menuAdd(self.x, self.y, self.width, self.height, self.id) 
         for i in self.buttons:
             key = self.buttons[i]
-            x = button[key]['x']
-            y = button[key]['y']
-            width = button[key]['width']
-            height = button[key]['height']
+            x = buttons[key]['x']
+            y = buttons[key]['y']
+            width = buttons[key]['width']
+            height = buttons[key]['height']
             Buttons.buttonAdd(x,y,width,height,key)
 
 
