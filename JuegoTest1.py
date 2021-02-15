@@ -1,9 +1,10 @@
 import pygame, sys, random
 import ctypes
 from VariablesGlobales import *
-import Menus, Units
+import Menus, Units, Map
+#from Map import Mapa, genMap
 from Units import *
-from Menus import Menu, Menus
+from Menus import Menu, Menus, Buttons
 from ButtonsAndMenus import *
 '''
 func_list = ['prueba_click("conf")', 'prueba_click("canc")']
@@ -34,8 +35,10 @@ clickMap = False
 pantallita = pygame.display.set_mode( screen_size )
 supmapa = pygame.Surface(map_size)
 pantallita.blit(supmapa, (0,0))
-print(base_image[0])
+
 #Unidades
+
+
 
 baseUnit = Unit('unitdad', base_image[0], [], 0)
 
@@ -44,7 +47,7 @@ class game:
 
     def play():
 
-        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin, clickMap, supmapa
+        global run, move, zoomv, movex, movey, ejeCoordenadas, clicking, clicked, unClicked, baseEleccion, clickedMap, unClickedMap, clickedMapOrigin, clickMap, supmapa, selected
         menu_abierto = False
         while run : 
 
@@ -286,7 +289,7 @@ class zooms:
 
                 #movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
                 movey = movey - ejeCoordenadas[1]
-                genMap.editMap
+                
 
         if evento < 0 and evento > -5:
             
@@ -299,7 +302,7 @@ class zooms:
                 map_size =  [int(map_size[0] * 0.5), int(map_size[1] * 0.5)]
                 movex = movex - int(0.5 * ejeCoordenadas[0] - ejeCoordenadas[0])
                 movey = movey - int(0.5 * ejeCoordenadas[1] - ejeCoordenadas[1])
-                genMap.editMap
+               
 
         supmapa = pygame.Surface(map_size)
         #supmapa.fill(white)
@@ -382,8 +385,7 @@ class tiles:
                 t = tile([i,j])
                 mapTile[i,j] = t.tile()
 
-
-class mapa:
+class Mapa:
     def __init__(self, imgsize):
         self.imgsize = imgsize
 
@@ -395,11 +397,12 @@ class mapa:
 
 
 
+
 genMap.genMap()
 
 tiles.tiles()
 
-mapaactual = mapa(zoomv)
+mapaactual = Mapa(zoomv)
 
 
 mapaactual.create()

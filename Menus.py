@@ -44,7 +44,7 @@ class Menus:
     def menuClicked(xy):
         for menuActivo in menusActivos.values():
             if menuActivo.collidepoint(xy):
-                
+                print(menu)
                 return True
         return False
 

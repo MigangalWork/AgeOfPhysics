@@ -3,16 +3,17 @@ from VariablesGlobales import *
 class Units:
 
     def unitClicked(xy):
-        for i in range(0,len(unitsActivas)):
-            key = list(unitsActivas.keys())[i]
-            if unitsActivas[key].collidepoint(xy):
+        for i in range(0,len(armiesInGame)):
+            key = list(armiesInGame.keys())[i]
+            if armiesInGame[key].collidepoint(xy):
                 
-                return True
-        return False
+                return key
+        return -1
 
-    def unitAdd(x,y,width,height,id):
+    def unitAdd(x,y,image,id):
         global menusActivos
-        menu = pygame.Rect((x, y, width, height))
+        menu = pygame.image.get_rect((x, y, width, height))
+        menu.rect.center 
         menusActivos[id] = menu
         print(menusActivos)
     
@@ -62,7 +63,7 @@ class army:
             self.rect = self.image.get_rect()
             self.rect.center = (x,y)
 
-            armiesInGame[id] = {'x' : self.name, 'y' : self.image, 'id' : self.id}
+            armiesInGame[id] = {'x' : self.x, 'y' : self.y, 'id' : self.id}
             numberOfArmies = numberOfArmies + 1
 
 class UnitInGame(Unit):
