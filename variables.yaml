@@ -1,0 +1,20 @@
+fps: 60
+screen_size: [500, 500]
+
+colors:
+  screen_filled: [255, 255, 255] # White
+
+eje_coordenadas: [0, 0]
+map_sizex: [0,500] 
+map_sizey: [0,500] 
+movex: 0
+movey: 0
+vel_mov_mapa: [1, 1]
+
+zoom_base: 10
+zoomv: 10
+zoom_list_refs: [1, 2, 4, 8]
+
+images_dir: images/lowRes
+
+menus: {}
