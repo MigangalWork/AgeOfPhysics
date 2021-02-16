@@ -84,8 +84,8 @@ class Game:
             #Actualizacion de variables
             eje_coordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
             
-            if click_map and clicking[1] and selected[0] != -1:
-                draw_select_multi(clicked_map_origin, pantallita)
+            if click_map and clicking[1]:
+                draw_select_multi(clicked_map_origin, pantallita, movex, movey, map_size)
 
             #Vemos si el raton esta en algun borde para mover el mapa
             movex, movey = Border.check(pygame.mouse.get_pos(), eje_coordenadas, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa)

@@ -2,14 +2,15 @@ import pygame
 import logging
 logger = logging.getLogger(__name__)
 
-def draw_select_multi(clicked_map_origin, pantallita):
+def draw_select_multi(clicked_map_origin, pantallita, movex, movey, map_size):
     # Dibuja cuadrado en pantalla
+    # Necesita refactorizacion brutal XD
     mx, my =  pygame.mouse.get_pos()
 
-    pixel_selected_x = min(clicked_map_origin[0], mx)
-    pixel_selected_y = min(clicked_map_origin[1], my)
-    pixel_other_pos_x = max(clicked_map_origin[0], mx)
-    pixel_other_pos_y = max(clicked_map_origin[1], my)
+    pixel_selected_x = min(max(min(clicked_map_origin[0], mx), movex), movex + map_size[0])
+    pixel_selected_y = min(max(min(clicked_map_origin[1], my), movey), movey + map_size[1])
+    pixel_other_pos_x = min(max(max(clicked_map_origin[0], movex), min(mx, movex + map_size[0])), movex + map_size[0]) 
+    pixel_other_pos_y = min(max(max(clicked_map_origin[1], movey), min(my, movey + map_size[1])), movey + map_size[1])
     pygame.draw.rect(pantallita, (0,0,0), (pixel_selected_x, pixel_selected_y, abs(pixel_selected_x - pixel_other_pos_x), abs(pixel_selected_y - pixel_other_pos_y)), 5)
 
 class Border:
@@ -66,8 +67,6 @@ class SelecCasilla:
             if x < (i+1) * zoomv and x > (i) * zoomv:
                 var2 = i
                 break
-        if var == -1 or var2 == -1:
-            return [-1,-1]
         return [var2,var]
 
 class Zooms:
