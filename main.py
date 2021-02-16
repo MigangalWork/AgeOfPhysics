@@ -5,7 +5,7 @@ logger.setLevel(logging.INFO)
 
 from src import config
 from src.Map import GenMap, Mapa, Tiles
-from src.Menus import Menus
+from src.Menus import Menus, Buttons
 from src import utils
 from src.Text import Text
 from src.Mouse import  draw_select_multi, Border, Mouse, Zooms
@@ -75,7 +75,7 @@ class Game:
             supmapa.fill(screen_filled_color)
             mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
             if text_active == True:
-                text.text_update()
+                text.textUpdate()
 
             #Pintamos unidades
 
@@ -96,7 +96,6 @@ class Game:
                 #Miramos si se pulsa la X, de ser asi cerramos el juego
                 if event.type == pygame.QUIT:
 
-                    pygame.quit()
                     run = False
 
                 #Miramos si se pulsa la un boton del raton
@@ -114,7 +113,8 @@ class Game:
                     clicked_map = click.pos_mouse(movex, movey)
                     clicked_map_origin = pygame.mouse.get_pos()
                     if my_menus.menu_clicked(clicked) == True:
-                        key = Buttons.button_clicked(clicked)
+                        # Crear objeto de Buttons antes de usarlo
+                        # key = Buttons.button_clicked(clicked)
                         text_active = True
                     else:
                         text_active = False
@@ -163,6 +163,7 @@ class Game:
             clock.tick(60)
             pygame.display.update()  
         
+        pygame.quit()
         return True
         
 
