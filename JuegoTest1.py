@@ -336,8 +336,8 @@ class genMap:
         tilesInMap = 0
         for i in range (map_sizex[0], map_size[0], zoomv):
             for j in range (map_sizey[0], map_size[1], zoomv):
-                
-                mapDic[tilesInMap] = {'img' : random.randint(0,6), 'pos' : (i,j)}
+                lista = genMap.selectImg()
+                mapDic[tilesInMap] = {'img' : lista[2], 'imgCat' : lista[0], 'imgGrp' : lista[1], 'pos' : (i,j)}
                 mapDicXY[i,j] = {'img' : mapDic[tilesInMap], 'pos' : tilesInMap}
                 tilesInMap = tilesInMap + 1
 
@@ -359,6 +359,29 @@ class genMap:
         global mapTile
         mapDic[i]['img'] = var
         #mapTile[i,j]['img'] = var
+
+
+    def selectImg ():
+        
+        var = random.randint(0,len(imagen.keys())-1)
+        cat = list(imagen.keys())[var]
+
+        var = random.randint(0,len(imagen[cat].keys())-1)
+        grp = list(imagen[cat].keys())[var]
+
+        var = random.randint(0,len(imagen[cat][grp].keys())-1)
+        img = list(imagen[cat][grp].keys())[var]
+
+        lista = (cat,grp,img)
+        return lista
+
+    def chunk():
+        chunkList = ('desert','winter','normal','sea','mountains')
+        chunkMap = {}
+        var = 0
+        for i in range (map_sizex[0], map_size[0], zoomv*10):
+            for j in range (map_sizey[0], map_size[1], zoomv*10):
+                chunkMap[var] = chunkList[random.randint(0,len(chunkList))]
 
 class tile:
 
@@ -411,11 +434,11 @@ class Mapa:
         #print((zoomv//zoomvBase))
         print (ceroPantalla)
         for i in range (tilesInMap):
-            #print(i)
+            #Imprimimos solo la parte de mapa dentro de la pantalla
             if mapDic[i]['pos'][0] > ceroPantalla[0] - 2*zoomv and ceroPantalla[0]+screen_size[0]+zoomv > mapDic[i]['pos'][0]:
                 if mapDic[i]['pos'][1] > ceroPantalla[1] - 2*zoomv and  ceroPantalla[1]+screen_size[1]+zoomv > mapDic[i]['pos'][1]:
                     #print(mapDic[i]['pos'][0])
-                    supmapa.blit(base_image[mapDic[i]['img']][zoomv],(mapDic[i]['pos']))
+                    supmapa.blit(imagen [mapDic[i]['imgCat']] [mapDic[i]['imgGrp']] [mapDic[i]['img']] [zoomv], (mapDic[i]['pos']))
 
 
 
