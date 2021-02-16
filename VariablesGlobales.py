@@ -11,25 +11,25 @@ movex = 0
 movey = 0
 sizex = 0
 sizey = 0
-screen_size = (500,500)
+screen_size = (1920,1080)
 
 mapa = {}
 zoomv = 10
 zoomvBase = 10
 
-zoomList = [zoomv, zoomv*2, zoomv*4, zoomv*8, zoomv*16]
+zoomList = [zoomv, zoomv*2, zoomv*4, zoomv*8]
 
 clicking = {1 : False}
 
-map_sizex = [0,500] 
-map_sizey = [0,500] 
+map_sizex = [0,2000] 
+map_sizey = [0,1000] 
 
 map_size = [map_sizex[1],map_sizey[1]]
 tilesInMap = 0
 
-imagen = {0 : "images/sand1.png", 1 : "images/mountain2.jpg", 2 : "images/mountain1.jpg", 3 : "images/forest4.jpg", 4 : "images/forest2.jpg",
+imagen = {0 : "images/lowRes/cities/city1.jpg", 1 : "images/lowRes/sea/sea2.jpg", 2 : "images/lowRes/forests/forest5.jpg", 3 : "images/lowRes/forests/forest2.jpg", 4 : "images/lowRes/winter/mountains/mountain3.jpg",
 
-5 : "images/sand6.png", 6 : "images/houseTimber.jpg"
+5 : "images/lowRes/floor/floor2.jpg", 6 : "images/lowRes/floor/floor4.jpg,", 7 : "images/lowRes/mountains/mountain5.jpg", 8 : "images/lowRes/mountains/mountain4.jpg"
 
 }
 

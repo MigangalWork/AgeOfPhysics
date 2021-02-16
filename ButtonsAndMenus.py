@@ -14,7 +14,7 @@ class MenuCreators:
         
         #topMenuQuitB = Button(x, y, width, height, screen, buttons, id):
         pantallita = screen
-        menu = Menu( 0, 800, 1000, 200, pantallita, [], 00)
+        menu = Menu( 0, 900, 1920, 180, pantallita, [], 00)
         menu.activateMenu()
-        menu2 = Menu( 0, 0, 1000, 80, pantallita, [], 10)
+        menu2 = Menu( 0, 0, 1920, 80, pantallita, [], 10)
         menu2.activateMenu()

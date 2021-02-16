@@ -44,7 +44,7 @@ pantallita.blit(supmapa, (0,0))
 baseUnit = Unit('unitdad', base_image[0], [], 0)
 '''
 
-text = Text(pantallita, {'x' : 200, 'y' : 200, 'width' : 200, 'height' : 40}, 10, (255,255,255))
+text = Text(pantallita, {'x' : 200, 'y' : 200, 'width' : 200, 'height' : 40}, 20, (255,255,255))
 
 class game:
 
@@ -74,16 +74,11 @@ class game:
 
 
             ejeCoordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
-            # clickedMap = [(clickedMapOrigin[0] + movex) + clickedMapOrigin[0] * zoomv, (clickedMapOrigin[1] + movex) + clickedMapOrigin[1] * zoomv]
+            
 
             if clickMap == True and clicking[1] and selected[0]!=-1:
-                mx, my =  pygame.mouse.get_pos()
+                drawSelectMulti(clickedMapOrigin)
                 
-                pixel_selected_x = min(clickedMap[0], mx)
-                pixel_selected_y = min(clickedMap[1], my)
-                pixel_other_pos_x = max(clickedMap[0], mx)
-                pixel_other_pos_y = max(clickedMap[1], my)
-                pygame.draw.rect(pantallita, (0,0,0), (pixel_selected_x, pixel_selected_y, abs(pixel_selected_x - pixel_other_pos_x), abs(pixel_selected_y - pixel_other_pos_y)), 5)
 
             #Vemos si el raton esta en algun borde para mover el mapa
             border.check(pygame.mouse.get_pos(), ejeCoordenadas)
@@ -112,7 +107,7 @@ class game:
                     clicked = pygame.mouse.get_pos()
 
                     clickedMap = click.posMouse()
-                    clickedMapOrigin = [clickedMap[0],clickedMap[0]]
+                    clickedMapOrigin = [pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]]
                     if Menus.menuClicked(clicked) == True:
                         key = Buttons.buttonClicked(clicked)
                         textActive = True
@@ -194,7 +189,20 @@ class mouse:
 
     def selecMulti(self):
         pass
+    
+def drawSelectMulti(clickedMapOrigin):
+        #clickedMap = posMouse(clickedMapOrigin)
+        mx, my =  pygame.mouse.get_pos()
         
+        #clickedMapScreen[0] = clickedMap[0] + movex
+        #clickedMapScreen[0] = clickedMap[1] + movey
+
+
+        pixel_selected_x = min(clickedMapOrigin[0], mx)
+        pixel_selected_y = min(clickedMapOrigin[1], my)
+        pixel_other_pos_x = max(clickedMapOrigin[0], mx)
+        pixel_other_pos_y = max(clickedMapOrigin[1], my)
+        pygame.draw.rect(pantallita, (0,0,0), (pixel_selected_x, pixel_selected_y, abs(pixel_selected_x - pixel_other_pos_x), abs(pixel_selected_y - pixel_other_pos_y)), 5)
 
 class border:
 
@@ -398,10 +406,16 @@ class Mapa:
         self.imgsize = imgsize
 
     def create(self):
-        
+
+        ceroPantalla = (-movex , -movey)
+        #print((zoomv//zoomvBase))
+        print (ceroPantalla)
         for i in range (tilesInMap):
             #print(i)
-            supmapa.blit(base_image[mapDic[i]['img']][zoomv],(mapDic[i]['pos']))
+            if mapDic[i]['pos'][0] > ceroPantalla[0] - 2*zoomv and ceroPantalla[0]+screen_size[0]+zoomv > mapDic[i]['pos'][0]:
+                if mapDic[i]['pos'][1] > ceroPantalla[1] - 2*zoomv and  ceroPantalla[1]+screen_size[1]+zoomv > mapDic[i]['pos'][1]:
+                    #print(mapDic[i]['pos'][0])
+                    supmapa.blit(base_image[mapDic[i]['img']][zoomv],(mapDic[i]['pos']))
 
 
 
