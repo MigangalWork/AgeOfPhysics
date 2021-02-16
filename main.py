@@ -1,7 +1,6 @@
 import pygame, sys, random
 import logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logging.getLogger().setLevel(logging.INFO)
 
 from src import config
 from src.Map import GenMap, Mapa, Tiles
