@@ -329,7 +329,7 @@ class genMap:
         for i in range (map_sizex[0], map_size[0], zoomv):
             for j in range (map_sizey[0], map_size[1], zoomv):
                 
-                mapDic[tilesInMap] = {'img' : random.randint(0,4), 'pos' : (i,j)}
+                mapDic[tilesInMap] = {'img' : random.randint(0,5), 'pos' : (i,j)}
                 mapDicXY[i,j] = {'img' : mapDic[tilesInMap], 'pos' : tilesInMap}
                 tilesInMap = tilesInMap + 1
 

@@ -27,7 +27,7 @@ map_sizey = [0,500]
 map_size = [map_sizex[1],map_sizey[1]]
 tilesInMap = 0
 
-imagen = {0 : "images/image1.png", 1 : "images/image2.png", 2 : "images/grass1.png", 3 : "images/floor1.jpg", 4 : "images/floor2.jpg"}
+imagen = {0 : "images/grass1.png", 1 : "images/grass2.png", 2 : "images/grass1.png", 3 : "images/floor1.jpg", 4 : "images/floor2.jpg", 5 : "images/city.jpg"}
 
 base_image = {}
 class sizemap:
