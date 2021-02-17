@@ -126,3 +126,6 @@ numberOfArmies = 0
 #Texto
 
 textActive = False
+
+a = random.random()
+print(a)

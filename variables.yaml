@@ -1,12 +1,12 @@
 fps: 60
-screen_size: [500, 500]
+screen_size: [1920, 1080]
 
 colors:
   screen_filled: [255, 255, 255] # White
 
 eje_coordenadas: [0, 0]
-map_sizex: [0,500] 
-map_sizey: [0,500] 
+map_sizex: [0,2000] 
+map_sizey: [0,1000] 
 movex: 0
 movey: 0
 vel_mov_mapa: [1, 1]

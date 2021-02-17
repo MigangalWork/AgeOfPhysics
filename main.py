@@ -3,12 +3,13 @@ import logging
 logging.getLogger().setLevel(logging.INFO)
 
 from src import config
-from src.Map import GenMap, Mapa, Tiles
+from src.Map import GenMap, Mapa, Tiles, Chunks
 from src.Menus import Menus, Buttons
 from src import utils
 from src.Text import Text
 from src.Mouse import  draw_select_multi, Border, Mouse, Zooms
 from src.ButtonsAndMenus import MenuCreators
+
 
 import yaml
 
@@ -49,7 +50,9 @@ class Game:
         # Creamos el mapa
         map_generator = GenMap()
         images = utils.charge_images(images, zoom_list, images_dir)
-        map_generator.gen_map(map_size, images)
+        chunk = Chunks(images)
+        map_generator.chunk(map_size, map_sizex, map_sizey, zoomv, chunk)
+        map_generator.gen_map(map_size, images, chunk)
         map_tile = Tiles.tiles(map_size, map_sizex, map_sizey, zoomv, map_generator.map_list)
         mapaactual = Mapa(zoomv)
         mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
