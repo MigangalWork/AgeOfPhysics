@@ -58,7 +58,7 @@ class Game:
         mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
 
         my_menus = Menus()
-        MenuCreators.main_menus(pantallita, my_menus, menus)
+        MenuCreators.main_menus(pantallita, my_menus, menus, screen_size)
 
         text = Text(pantallita, {'x' : 200, 'y' : 200, 'width' : 200, 'height' : 40}, 20, (255,255,255))
 

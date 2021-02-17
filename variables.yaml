@@ -1,5 +1,5 @@
 fps: 60
-screen_size: [1920, 1080]
+screen_size: [500, 500]
 
 colors:
   screen_filled: [255, 255, 255] # White

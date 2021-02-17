@@ -67,6 +67,7 @@ class SelecCasilla:
             if x < (i+1) * zoomv and x > (i) * zoomv:
                 var2 = i
                 break
+        print(var2,var)
         return [var2,var]
 
 class Zooms:
