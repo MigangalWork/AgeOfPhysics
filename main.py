@@ -8,7 +8,7 @@ from src.Menus import Menus, Buttons
 from src import utils
 from src.Text import Text
 from src.Mouse import  draw_select_multi, Border, Mouse, Zooms
-from src.ButtonsAndMenus import MenuCreators
+from src.ButtonsAndMenus import MenuCreators, Menus, menusObj
 
 
 import yaml
@@ -41,6 +41,9 @@ class Game:
 
         map_size = (map_sizex[1], map_sizey[1])
         zoom_list = list(map(lambda x: zoomv * x, zoom_list_refs))
+        zoom_list.append(2)
+
+        minimapa = False
 
         # Creamos la pantalla
         pantallita = pygame.display.set_mode(screen_size)
@@ -56,9 +59,11 @@ class Game:
         map_tile = Tiles.tiles(map_size, map_sizex, map_sizey, zoomv, map_generator.map_list)
         mapaactual = Mapa(zoomv)
         mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
-
-        my_menus = Menus()
-        MenuCreators.main_menus(pantallita, my_menus, menus, screen_size)
+        
+        #Creamos menus
+        menu_creator = MenuCreators(menus,screen_size)
+        menu_creator.create_menus(pantallita, menusObj)
+        menu_creator.main_menus(menusObj)
 
         text = Text(pantallita, {'x' : 200, 'y' : 200, 'width' : 200, 'height' : 40}, 20, (255,255,255))
 
@@ -69,6 +74,7 @@ class Game:
         selected = []
         clicked_map_origin = [0, 0]
 
+        
         while run:
 
             #Pintamos la pantalla
@@ -82,7 +88,7 @@ class Game:
             #Pintamos unidades
 
             #Pintamos menus
-            my_menus.menu_draw(menus)
+            Menus.menu_draw(menus)
 
             #Actualizacion de variables
             eje_coordenadas = [int(screen_size[0]/2) - movex, int(screen_size[1]/2) - movey]
@@ -101,6 +107,20 @@ class Game:
                     run = False
 
                 #Miramos si se pulsa la un boton del raton
+                if event.type == pygame.KEYDOWN:
+                    pressed = pygame.key.get_pressed()
+                    if pressed[pygame.K_m] and minimapa == False:
+                        minimapa = True
+                        oldVar = (supmapa, movex, movey, zoomv, map_size)
+                        supmapa, movex, movey, zoomv, map_size = Zooms.minimap(event, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size)
+                    elif pressed[pygame.K_m]:
+                        supmapa = oldVar[0]
+                        movex = oldVar[1]
+                        movey = oldVar[2]
+                        zoomv = oldVar[3]
+                        map_size = oldVar[4]
+                        minimapa = False
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
 
                     clicking[event.button] = True
@@ -114,7 +134,7 @@ class Game:
 
                     clicked_map = click.pos_mouse(movex, movey)
                     clicked_map_origin = pygame.mouse.get_pos()
-                    if my_menus.menu_clicked(clicked) == True:
+                    if Menus.menu_clicked(clicked) == True:
                         # Crear objeto de Buttons antes de usarlo
                         # key = Buttons.button_clicked(clicked)
                         text_active = True
@@ -155,8 +175,11 @@ class Game:
                         # print (selectedM) 
                     '''               
                     
-                if event.type == pygame.MOUSEWHEEL:   
-                    supmapa, movex, movey, zoomv, map_size = Zooms.zoom(event.y, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size)
+                if event.type == pygame.MOUSEWHEEL: 
+                    if minimapa == True:
+                        pass
+                    else:
+                        supmapa, movex, movey, zoomv, map_size = Zooms.zoom(event.y, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size)
 
                 if text_active == True:
                     text.textEdit(event)

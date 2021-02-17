@@ -39,7 +39,9 @@ class GenMap:
         # Esta función cambia el tamaño del mapa
         var = 0
         for i in range (map_sizex[0], map_size[0], zoomv):
-            for j in range (map_sizey[0], map_size[1], zoomv):   
+            
+            for j in range (map_sizey[0], map_size[1], zoomv):
+              
                 self.map_list[var]['pos'] = (i,j)
                 var +=  1   
 

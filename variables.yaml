@@ -11,8 +11,8 @@ movex: 0
 movey: 0
 vel_mov_mapa: [1, 1]
 
-zoom_base: 10
-zoomv: 10
+zoom_base: 5
+zoomv: 5
 zoom_list_refs: [1, 2, 4, 8]
 
 images_dir: images/lowRes

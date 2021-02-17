@@ -12,6 +12,7 @@ class Menus:
 
     def __init__(self):
         self.menus_activos = {}
+        self.menus_surface_dic = {}
 
     def menu_clicked(self, xy):
         for menu_activo in self.menus_activos.values():
@@ -21,10 +22,13 @@ class Menus:
 
     def menu_add(self, x, y, width, height, id):
         menu = pygame.Rect((x, y, width, height))
+        menu_surf = pygame.Surface((width, height))
         self.menus_activos[id] = menu
+        self.menus_surface_dic[id] = menu_surf
     
     def menu_erase(self, id):
         del self.menus_activos[id]
+        del self.menus_surface_dic[id]
 
     def menu_draw(self, menus):
         for key in self.menus_activos.keys():
@@ -89,13 +93,13 @@ class Buttons:
 
 class Button:
 
-    def __init__(self, x, y, width, height, screen, function, id, buttons={}):
+    def __init__(self, x, y, width, height, screen, function, id):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.screen = screen
-        self.function
+        self.function = function
         self.id = id
         buttons[id] = {'x' : self.x, 'y' : self.y, 'width' : self.width, 'height' : self.height, 'screen' : self.screen, 'function' : self.function}
 

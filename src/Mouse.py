@@ -18,16 +18,16 @@ class Border:
     def check(m, eje, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa):
         if eje[0] < map_size[0]:
             if m[0] >= screen_size[0]-20:
-                movex -= int(vel_mov_mapa[0] * zoomv/3)
+                movex -= int(vel_mov_mapa[0] * zoomv/2)
         if eje[0] > 0 :
             if m[0] <= 20:
-                movex += int(vel_mov_mapa[0] * zoomv/3)
+                movex += int(vel_mov_mapa[0] * zoomv/2)
         if eje[1] < map_size[1]:
             if m[1] >= screen_size[1]-20:
-                movey -= int(vel_mov_mapa[1] * zoomv/3)
+                movey -= int(vel_mov_mapa[1] * zoomv/2)
         if eje[1] > 0 :        
             if m[1] <= 20:
-                movey += int(vel_mov_mapa[1] * zoomv/3)
+                movey += int(vel_mov_mapa[1] * zoomv/2)
         return movex, movey
 
 def _pos_mouse(xy, movex, movey):
@@ -67,7 +67,7 @@ class SelecCasilla:
             if x < (i+1) * zoomv and x > (i) * zoomv:
                 var2 = i
                 break
-        print(var2,var)
+
         return [var2,var]
 
 class Zooms:
@@ -100,6 +100,39 @@ class Zooms:
                 map_size =  [int(map_size[0] * 0.5), int(map_size[1] * 0.5)]
                 movex = movex - int(0.5 * eje_coordenadas[0] - eje_coordenadas[0])
                 movey = movey - int(0.5 * eje_coordenadas[1] - eje_coordenadas[1])
+               
+        print(map_size)
+        supmapa = pygame.Surface(map_size)
+        supmapa.fill(screen_filled_color)
+        logger.info(zoomv)
+        map_generator.zoom_map(map_size, zoomv)
+        mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
+
+        return supmapa, movex, movey, zoomv, map_size
+
+    def minimap(evento, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size):
+        '''    
+        #if evento > 0 and evento < 5:
+            zoomv = zoom_base
+            
+            map_size =  [map_size[0] * 2, map_size[1] * 2]
+            
+            #movex = movex - (2 * ejeCoordenadas[0] - ejeCoordenadas[0])
+            movex = movex - eje_coordenadas[0]
+
+            #movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
+            movey = movey - eje_coordenadas[1]
+        '''        
+
+        #if evento < 0 and evento > -5:
+            
+        zoomv = 2
+
+        
+        map_size =  [int(map_size[0] * 0.4), int(map_size[1] * 0.4)]
+        print(map_size)
+        movex = movex - int(0.4 * eje_coordenadas[0] - eje_coordenadas[0])
+        movey = movey - int(0.4 * eje_coordenadas[1] - eje_coordenadas[1])
                
 
         supmapa = pygame.Surface(map_size)
