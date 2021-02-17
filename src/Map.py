@@ -67,35 +67,39 @@ class GenMap:
         chunkSize = zoomv*5
         for x in range (map_sizex[0], map_size[0], zoomv):
             for y in range (map_sizey[0], map_size[1], zoomv):
-                if [x,y] in self.map_dic_XY:
+                if (x,y) in self.map_dic_XY:
                     pass
                 else:
-                        chunkOld = chunk
-                        chunk = Chunk.addChunk(chunkOld)
-                        ix = x
-                        iy = y
-                        mounVert = True
-                        mounHor = True
-                        while mounHor or mounVert:
+                    chunkOld = chunk
+                    chunk = Chunk.addChunk(chunkOld)
+                    self.map_dic_XY[x,y] = { 'chunk' : chunk }
+                    ix = x
+                    iy = y
+                    mounVert = True
+                    mounHor = True
+                    while mounHor or mounVert:
+                        if (ix,iy) in self.map_dic_XY:
+                            break
+                        if random.random() > 0.1 and mounHor:
+                            ix = ix + random.randint(-1,1)
+                            if ix < 0:
+                                ix = 0
+                                self.map_dic_XY[ix,iy] = { 'chunk' : chunk }
 
-                            if random.random() > 0.8 and mounHor:
-                                ix = ix + random.randint(-1,1)
-                                if ix < 0:
-                                    ix = 0
-                                map_dic_XY[ix,iy] = { 'chunk' : chunk }
-                            else:
-                                mounHor = False
-                            if random.random() > 0.8 and mounVert:
-                                iy = iy + random.randint(-1,1)
-                                if ix < 0:
-                                    ix = 0
-                                map_dic_XY[ix,iy] = { 'chunk' : chunk }
-                            else:
-                                mounVert = False
+                        else:
+                            mounHor = False
+
+                        if random.random() > 0.1 and mounVert:
+                            iy = iy + random.randint(-1,1)
+                            if ix < 0:
+                                ix = 0
+                                self.map_dic_XY[ix,iy] = { 'chunk' : chunk }
+                        else:
+                            mounVert = False
                                 
                         #self.map_dic_XY[x,y] = Chunk.randChunk(x, y, chunk, chunkOld, self.map_dic_XY)
                                 
-                        self.map_dic_XY = Chunk.mountains(x, y, self.map_dic_XY, chunk)
+                    self.map_dic_XY = Chunk.mountains(x, y, self.map_dic_XY, chunk)
                 #print(self.map_list)
                         
         '''
@@ -189,7 +193,7 @@ class Chunks:
 
         chunkList = ('desert','winter','normal','sea','lakes')
 
-        if random.random() > 0.8:
+        if random.random() > 0.5:
 
             chunk = chunkList[random.randint(0,len(chunkList)-1)]
 
