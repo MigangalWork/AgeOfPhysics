@@ -67,12 +67,8 @@ class SelecCasilla:
             if x < (i+1) * zoomv and x > (i) * zoomv:
                 var2 = i
                 break
-<<<<<<< Updated upstream
-
-=======
         if var2 == -1 or var == -1:
             return [-1, -1]
->>>>>>> Stashed changes
         return [var2,var]
 
 class Zooms:
