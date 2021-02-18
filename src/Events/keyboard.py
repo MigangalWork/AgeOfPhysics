@@ -1,4 +1,4 @@
-class keyboard:
+class Keyboard:
 
     def keyboard():
         pass

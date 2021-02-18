@@ -10,6 +10,8 @@ from src.Text import Text
 from src.Mouse import  draw_select_multi, Border, Mouse, Zooms
 from src.ButtonsAndMenus import MenuCreators, Menus, menusObj
 from src.Display import Display
+from src.Events.Keyboard import Keyboard
+from src.Events.Mouse import MouseInput
 
 import yaml
 
@@ -187,7 +189,8 @@ class Game:
                     if minimapa == True:
                         pass
                     else:
-                        supmapa, movex, movey, zoomv, map_size = Zooms.zoom(event.y, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size)
+                        
+                        supmapa, movex, movey, zoomv, map_size = Zooms.zoom(event.y, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size, clicked_map)
 
                 if text_active == True:
                     text.textEdit(event)

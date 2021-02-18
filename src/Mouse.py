@@ -75,7 +75,7 @@ class SelecCasilla:
 
 class Zooms:
 
-    def zoom(evento, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size):
+    def zoom(evento, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size, xy):
         
         if evento > 0 and evento < 5:
             zoomv = zoomv * 2
@@ -86,10 +86,10 @@ class Zooms:
                 map_size =  [map_size[0] * 2, map_size[1] * 2]
                 
                 #movex = movex - (2 * ejeCoordenadas[0] - ejeCoordenadas[0])
-                movex = movex - eje_coordenadas[0]
+                movex = movex - xy[0]
 
                 #movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
-                movey = movey - eje_coordenadas[1]
+                movey = movey - xy[1]
                 
 
         if evento < 0 and evento > -5:
