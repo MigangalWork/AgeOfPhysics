@@ -1,5 +1,5 @@
 import pygame
-import Display
+#import Display
 import logging
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ def draw_select_multi(clicked_map_origin, pantallita, movex, movey, map_size):
 
 class Border:
 
-    def check(m, eje, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa, refrescador):
+    def check(m, eje, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa):
         if eje[0] < map_size[0]:
             if m[0] >= screen_size[0]-20:
                 movex -= int(vel_mov_mapa[0] * zoomv/1)
@@ -29,7 +29,7 @@ class Border:
         if eje[1] > 0 :        
             if m[1] <= 20:
                 movey += int(vel_mov_mapa[1] * zoomv/1)
-        refrescador.display()
+        
         return movex, movey
 
 def _pos_mouse(xy, movex, movey):

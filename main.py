@@ -73,21 +73,22 @@ class Game:
         clicking = {1 : False}
         selected = []
         clicked_map_origin = [0, 0]
-        display = Display(movex, movey, zoomv, screensize, pantallita, supmapa, mapaactual, map_generator, images, screen_filled_color)
+        display = Display(movex, movey, zoomv, screen_size, images, screen_filled_color)
 
-        #Pintamos la pantalla
-        pantallita.fill(screen_filled_color)
-        pantallita.blit(supmapa, (0 + movex, 0 + movey))
-        supmapa.fill(screen_filled_color)
-        mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
+        
         
         while run:
 
+
             #Pintamos la pantalla
+            
+            #display.display(pantallita, supmapa, mapaactual, map_generator)
+
             pantallita.fill(screen_filled_color)
             pantallita.blit(supmapa, (0 + movex, 0 + movey))
             supmapa.fill(screen_filled_color)
             mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
+
             if text_active == True:
                 text.textUpdate()
 
@@ -103,7 +104,7 @@ class Game:
                 draw_select_multi(clicked_map_origin, pantallita, movex, movey, map_size)
 
             #Vemos si el raton esta en algun borde para mover el mapa
-            movex, movey = Border.check(pygame.mouse.get_pos(), eje_coordenadas, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa, display)
+            movex, movey = Border.check(pygame.mouse.get_pos(), eje_coordenadas, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa)
             
             #Miramos que eventos ocurren
             for event in pygame.event.get():
