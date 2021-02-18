@@ -1,4 +1,5 @@
 import pygame
+import Display
 import logging
 logger = logging.getLogger(__name__)
 
@@ -15,19 +16,20 @@ def draw_select_multi(clicked_map_origin, pantallita, movex, movey, map_size):
 
 class Border:
 
-    def check(m, eje, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa):
+    def check(m, eje, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa, refrescador):
         if eje[0] < map_size[0]:
             if m[0] >= screen_size[0]-20:
-                movex -= int(vel_mov_mapa[0] * zoomv/2)
+                movex -= int(vel_mov_mapa[0] * zoomv/1)
         if eje[0] > 0 :
             if m[0] <= 20:
-                movex += int(vel_mov_mapa[0] * zoomv/2)
+                movex += int(vel_mov_mapa[0] * zoomv/1)
         if eje[1] < map_size[1]:
             if m[1] >= screen_size[1]-20:
-                movey -= int(vel_mov_mapa[1] * zoomv/2)
+                movey -= int(vel_mov_mapa[1] * zoomv/1)
         if eje[1] > 0 :        
             if m[1] <= 20:
-                movey += int(vel_mov_mapa[1] * zoomv/2)
+                movey += int(vel_mov_mapa[1] * zoomv/1)
+        refrescador.display()
         return movex, movey
 
 def _pos_mouse(xy, movex, movey):
@@ -127,13 +129,16 @@ class Zooms:
 
         #if evento < 0 and evento > -5:
             
-        zoomv = 2
+        
 
         
-        map_size =  [int(map_size[0] * 0.4), int(map_size[1] * 0.4)]
-        print(map_size)
-        movex = movex - int(0.4 * eje_coordenadas[0] - eje_coordenadas[0])
-        movey = movey - int(0.4 * eje_coordenadas[1] - eje_coordenadas[1])
+        map_size =  [int(map_size[0] * 2/zoom_base * (zoom_base/zoomv)), int(map_size[1] * 2/zoom_base * (zoom_base/zoomv))]
+
+        zoomv = 2
+
+    
+        movex = map_size[0]//2 
+        movey = map_size[1]//2
                
 
         supmapa = pygame.Surface(map_size)

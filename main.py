@@ -9,7 +9,7 @@ from src import utils
 from src.Text import Text
 from src.Mouse import  draw_select_multi, Border, Mouse, Zooms
 from src.ButtonsAndMenus import MenuCreators, Menus, menusObj
-
+from src.Display import Display
 
 import yaml
 
@@ -73,7 +73,13 @@ class Game:
         clicking = {1 : False}
         selected = []
         clicked_map_origin = [0, 0]
+        display = Display(movex, movey, zoomv, screensize, pantallita, supmapa, mapaactual, map_generator, images, screen_filled_color)
 
+        #Pintamos la pantalla
+        pantallita.fill(screen_filled_color)
+        pantallita.blit(supmapa, (0 + movex, 0 + movey))
+        supmapa.fill(screen_filled_color)
+        mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
         
         while run:
 
@@ -97,7 +103,7 @@ class Game:
                 draw_select_multi(clicked_map_origin, pantallita, movex, movey, map_size)
 
             #Vemos si el raton esta en algun borde para mover el mapa
-            movex, movey = Border.check(pygame.mouse.get_pos(), eje_coordenadas, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa)
+            movex, movey = Border.check(pygame.mouse.get_pos(), eje_coordenadas, movex, movey, map_size, zoomv, screen_size, vel_mov_mapa, display)
             
             #Miramos que eventos ocurren
             for event in pygame.event.get():
@@ -119,6 +125,7 @@ class Game:
                         movey = oldVar[2]
                         zoomv = oldVar[3]
                         map_size = oldVar[4]
+                        supmapa, movex, movey, zoomv, map_size = Zooms.zoom(-1, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size)
                         minimapa = False
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
