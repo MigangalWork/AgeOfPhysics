@@ -128,7 +128,7 @@ class Game:
                         movey = oldVar[2]
                         zoomv = oldVar[3]
                         map_size = oldVar[4]
-                        supmapa, movex, movey, zoomv, map_size = Zooms.zoom(-1, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size)
+                        supmapa, movex, movey, zoomv, map_size = Zooms.zoom(-1, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size, clicked_map)
                         minimapa = False
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
