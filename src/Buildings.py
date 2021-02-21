@@ -8,7 +8,7 @@ def draw_text_centered(text, font, color, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-class Menus:
+class Buildings:
 
     def __init__(self):
         self.menus_activos = {}
@@ -40,34 +40,24 @@ class Menus:
             screen.blit(self.menus_surface_dic[key],(x,y))
             
 
-class Menu:
+class Building:
 
-    def __init__(self, x, y, width, height, screen, buttons, id, menus, menus_surface_dic):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+    def __init__(self, screen, image, id, buildings):
+
         self.screen = screen
-        self.buttons = buttons
-        self.menu_surf = pygame.Surface((self.width, self.height))
-        menus_surface_dic[id] = self.menu_surf
+        self.image = image
+        self.atributes = atributes
         self.id = id
-        menus[id] = {'x' : self.x, 'y' : self.y, 'width' : self.width, 'height' : self.height, 'screen' : self.screen, 'buttons' : self.buttons}
-        #self.surface = pygame.Surface((x,y))
+        buildings[id] = {'image' : image, 'screen' : self.screen, 'atributes' : self.atributes}
+
 
 
     def activate_menu(self, Menus, Buttons, buttons): 
         Menus.menu_add(self.x, self.y, self.width, self.height, self.id) 
-        for i in self.buttons:
-            key = i
-            x = buttons[key]['x']
-            y = buttons[key]['y']
-            width = buttons[key]['width']
-            height = buttons[key]['height']
-            Buttons.button_add(x, y, width, height, key)
+        
 
 
-class Buttons:
+class BuildinsInGame:
 
     def __init__(self):
         self.buttons_activos = {}
