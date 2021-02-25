@@ -1,5 +1,7 @@
 import pygame
 
+units = {}
+
 class Units:
 
     def unitClicked(xy):
@@ -20,69 +22,100 @@ class Units:
     def unitErase(id):
         del unitsActivas[id]
 
-    def unitDraw(menus):
-        for key in unitsActivas.keys:
-
-            x = menus[key]['x']
-            y = menus[key]['y']
-            width = menus[key]['width']
-            height = menus[key]['height']
-            screen = menus[key]['screen']
-            #pantallita.blit(key, (0,0))
-
-            pygame.draw.rect(screen, (0, 0, 0), (x,y,width, height))
-
 class Unit:
 
-    def __init__(self, name, image, movReg, attributes, id):
+    def __init__(self, name, image, movReg, attributes, units, id):
         
         self.name = name
         self.image = image
-        self.attributes = attributes
+        self.attributes = daño
         self.movReg = movReg
         self.id = id
-        units[id] = {'name' : self.name, 'image' : self.image, 'movReg' : self.movReg, 'attributes' : self.attributes}
+        units[id] = self
         
 
-    def activateUnit(self): 
+    def unitAddToArmy(self): 
         Menus.menuAdd(self.x, self.y, self.width, self.height, self.id) 
 
+class UnitInArmy(Unit):
 
-class army:
+    def __init__(self, units, army, id):
 
-    def __init__(self, x, y, id, units={}, armies, zoomv, armiesGen, maps):
+        self.name = units.name
+        self.image = units.image
+        self.attributes = units.attributes
+        self.movReg = units.movReg
+        self.id = id
+        self.armyId = army.id
+        self.unitId = units.id
+
+
+
+class Army:
+
+    def __init__(self, x, y, width, height, id, armies, unitsDic, armiesGen, maps, player, image=None, units={None}):
 
             self.x = x
             self.y = y
             self.id = id
+            if image == None:
+                self.width = width
+                self.height =  height
+            else:
+                self.width = image.get_width()
+                self.height =  image.get_height()
 
-
-            self.zoom = zoomv
             self.units = units
-            self.armyImgSize = zoomv * len(self.units)//5
-            self.screen = armiesGen.armyCheckScreen(maps)
+            self.armyImgSize = len(self.units)//5
+            self.screen = armiesGen.armyCheckScreen(self.units, maps, unitsDic)
+
+            self.player = player
             
-            armies[id] = {'x' : self.x, 'y' : self.y, 'screen' : self.screen, 'armyImgSize' : self.armyImgSize, 'id' : self.id, 'units' : self.units}
+            
+            armies[id] = self
             armiesGen.numberOfArmies = armiesGen.numberOfArmies + 1
+
+            armiesGen.Armies.armyAdd(self.x, self.y, self.image, self.id)
+
+    def addUnitToArmy(self, key, num = 1, Units): 
+        
+        if key in self.units.keys():
+
+            self.units[key] = 
+        
+        else:
+
+            self.units[key]
+
+    def getGeneralStats():
+
+        pass
+
+    def addArmyAttribute():
+
+        pass
+
 
 
 class Armies:
 
     def __init__(self):
+
         self.numberOfArmies = 0
         self.armiesInGame = {}
+        self.armies = {}
 
         
 
-    def armyClicked(self, xy):
-        for key in self.armiesInGame.keys:
+    def army_clicked(self, xy):
+        for key in self.armiesInGame.keys():
             
             if self.armiesInGame[key].collidepoint(xy):
                 
                 return key
-        return -1
+        return '-1'
 
-    def armytAdd(self, x,y,image,id):
+    def armyAdd(self, x, y, width, height, id):
 
         army = pygame.Rect((x, y, width, height))
         self.armiesInGame[id] = army
@@ -91,28 +124,30 @@ class Armies:
     def armyErase(self, id):
         del self.armiesInGame[id]
 
-    def armyDraw(self, armies):
+    def armyDraw(self, variables, players=None):
+        zoomv = variables['zoomv']
         for key in self.armiesInGame.keys():
-            x = armies[key]['x']
-            y = armies[key]['y']
-            width = armies[key]['armyImgSize']
-            height = armies[key]['armyImgSize']
-            screen = armies[key]['screen']
+            x = armies[key].x
+            y = armies[key].y
+            width = zoomv # + armies[key].armyImgSize
+            height = zoomv # + armies[key].armyImgSize
+            screen = armies[key].screen
             pygame.draw.rect(screen, (0, 0, 0), (x,y,width, height))
+            #pygame.draw.rect(screen, players[id]['color'], (x-1,y-1,width+2, height)+2, 2)
     
-    def armyCheckScreen(self, maps):
+    def armyCheckScreen(self, units, maps, unitsDic):
         
-        for i in self.units:
-            if 'land' or 'sea' in self.units[i]['movReg']:
-                self.screen = maps[0]
-            elif 'air' in self.units[i]['movReg']:
-                self.screen = maps[1]
-            elif 'space' in self.units[i]['movReg']:
-                self.screen = maps[2]
+        for i in units:
+            if 'land' or 'sea' in unitsDic[i]['movReg']:
+                return maps[0]
+            elif 'air' in unitsDic[i]['movReg']:
+                return maps[1]
+            elif 'space' in unitsDic[i]['movReg']:
+                return maps[2]
             else:
-                self.screen = supmapa
+                return supmapa
 
-    def armyUpdate(self, movex, movey, zoomv, armies)
+    def armyUpdate(self, movex, movey, zoomv, armies):
 
         for key in self.armiesInGame.keys():
             armies[key]['x'] = armies[key]['x'] - movex
@@ -121,22 +156,13 @@ class Armies:
 
 
 
-    def armyReturn():
+    def armyReturn(self):
         return self.numberOfArmies, self.armiesInGame
 
-class UnitInGame(Unit):
+    def create_army(self, x, y, width, height, id, zoomv, armiesGen, maps, player, image=None, units={None}):
 
-    def __init__(self, x, y, id):
+        army = Amry(x, y, width, height, id, self.armies, unitsDic, zoomv, armiesGen, maps, player)
 
-        self.x = x
-        self.y = y
-        self.id = id
 
-        self.image = units[self.id]['image'][zoomv]
-        self.zoom = zoomv
-        self.rect = self.image.get_rect()
-        self.rect.center = (x,y)
-
-        unitsInGame[id] = {'x' : self.name, 'y' : self.image, 'id' : self.id}
         
         

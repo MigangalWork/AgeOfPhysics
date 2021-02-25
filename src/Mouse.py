@@ -75,7 +75,7 @@ class SelecCasilla:
 
 class Zooms:
 
-    def zoom(evento, zoomv, supmapa, movex, movey, map_size, mapaactual, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size, xy):
+    def zoom(evento, zoomv, supmapa, movex, movey, map_size, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size, xy, mapaActual):
         
         if evento > 0 and evento < 5:
             zoomv = zoomv * 2
@@ -104,12 +104,12 @@ class Zooms:
                 movex = movex - int(0.5 * eje_coordenadas[0] - eje_coordenadas[0])
                 movey = movey - int(0.5 * eje_coordenadas[1] - eje_coordenadas[1])
                
-        print(map_size)
-        supmapa = pygame.Surface(map_size)
+        supmapa.fill(screen_filled_color)
+        supmapa = pygame.Surface(map_size, pygame.HWSURFACE)
         supmapa.fill(screen_filled_color)
         logger.info(zoomv)
         map_generator.zoom_map(map_size, zoomv)
-        mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
+        mapaActual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
 
         return supmapa, movex, movey, zoomv, map_size
 

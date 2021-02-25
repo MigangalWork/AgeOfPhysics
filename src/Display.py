@@ -14,13 +14,14 @@ class Display:
         self.screen_size = screen_size
         self.images = images
         self.screen_filled_color = screen_filled_color
-        pantallita = pygame.display.set_mode(screen_size)
-        self.pantallita = pantallita
+        self.pantallita = pygame.display.set_mode(screen_size, pygame.HWSURFACE)
+        print(self.pantallita)
         
         
     def maps(self, map_size):
 
-        self.supmapa = pygame.Surface(map_size)
+        self.supmapa = pygame.Surface(map_size, pygame.HWSURFACE)
+        print(self.supmapa)
         self.supmapaAir = pygame.Surface(map_size)
         self.supmapaSpace = pygame.Surface(map_size)
         self.pantallita.blit(self.supmapa, (0,0))

@@ -7,6 +7,9 @@ variables = yaml.safe_load(open('variables.yaml', 'r'))
 map_sizex = variables.get('map_sizex')
 map_sizey = variables.get('map_sizey')
 zoomv = variables.get('zoomv')
+tile_map = {}
+map_dic_XY = {}
+variables['map_dic_XY'] = map_dic_XY
 
 class GenMap:
 
@@ -16,11 +19,11 @@ class GenMap:
     
     def gen_map(self, map_size, images, Chunk):
         # Esta funcion genera el mapa en base al tamaño y zoom
+        
 
         self.map_list = []
         tiles_in_map = 0
         tile_dic = {}
-
         for i in range (map_sizex[0], map_size[0], zoomv):
             for j in range (map_sizey[0], map_size[1], zoomv): 
                 #lista = self._select_img(images)
@@ -33,7 +36,11 @@ class GenMap:
 
                 self.map_list[tiles_in_map] = tile_dic
                 self.map_dic_XY[i,j] = {'img' : tile_dic, 'pos' : tiles_in_map}
+                Tile.tile(map_dic_XY,(i,j))
                 tiles_in_map += 1
+
+        GenMap.updateMapDic(self)
+
 
     def zoom_map(self, map_size, zoomv):
         # Esta función cambia el tamaño del mapa
@@ -47,7 +54,14 @@ class GenMap:
 
     def edit_map(self, i, j, var):
         # Esta funcion edita un elemento del mapa
-        self.map_list[i]['img'] = var
+        GenMap.updateSelfMapDic(self)
+
+        pos = self.map_dic_XY[i,j]['pos']
+        self.map_list[pos]['img'] = var[0]
+        self.map_list[pos]['imgGrp'] = var[1]
+        self.map_list[pos]['imgCat'] = var[2]
+
+        GenMap.updateMapDic(self)
 
     def _select_img(self, images):
         
@@ -62,6 +76,14 @@ class GenMap:
 
         lista = (cat,grp,img)
         return lista
+
+    def updateMapDic(self):
+
+        map_dic_XY = self.map_dic_XY
+
+    def updateSelfMapDic(self):
+
+        self.map_dic_XY = map_dic_XY
 
     def chunk(self, map_size, map_sizex, map_sizey, zoomv, Chunk):
         self.map_dic_XY = {}
@@ -119,7 +141,9 @@ class GenMap:
                                 
                     self.map_dic_XY = Chunk.mountains(x, y, self.map_dic_XY, chunk, map_size)
                 #print(self.map_list)
-                        
+
+        GenMap.updateMapDic(self)  
+
         '''
         for x in range (map_sizex[0], map_size[0], chunkSize):
             for y in range (map_sizey[0], map_size[1], chunkSize):
@@ -321,22 +345,23 @@ class Mapa:
             if tile['pos'][0] > cero_pantalla[0] - 2 * zoomv and cero_pantalla[0] + screen_size[0] + zoomv > tile['pos'][0]:
                 if tile['pos'][1] > cero_pantalla[1] - 2 * zoomv and cero_pantalla[1] + screen_size[1] + zoomv > tile['pos'][1]:
                     supmapa.blit(images[tile['imgCat']][tile['imgGrp']][tile['img']][zoomv], (tile['pos']))
+
 class Tile:
 
-    def __init__(self, xy, map_list):
-        self.xy = xy
-        self.n = (1)
-        self.img = map_list[self.n]
-
-    def tile(self):
-        return {'pos' : self.xy, 'visible' : True, 'visibleBy' : 1, 'img' : self.img, 'unit' : False}
+    def tile(map_dic_XY, id):
+        attributes = {'visible' : False, 'visibleBy' : 0}
+        map_dic_XY[id] =  {'attributes' :  attributes}
 
 class Tiles:
 
-    def tiles(map_size, map_sizex, map_sizey, zoomv, map_list, map_tile={}):
-        size = map_sizex[1] * map_sizey[1]
-        for i in range (map_sizex[0], map_size[0], zoomv):
-            for j in range (map_sizey[0], map_size[0], zoomv):
-                t = Tile([i,j], map_list)
-                map_tile[i,j] = t.tile()
-        return map_tile
+    
+    def tileEdit(map_dic_XY, id, key, var):
+
+        map_dic_XY[id]['attributes'][key] = var
+
+    def tileEditArray(map_dic_XY, id, keys, vars):
+        x = 0
+        for key in keys:
+            map_dic_XY[id]['attributes'][keys] = vars[x]
+            var = var + 1
+

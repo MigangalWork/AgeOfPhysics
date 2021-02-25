@@ -60,18 +60,17 @@ class Text:
             elif event.key == pygame.K_RIGHT:
                         self._IMETextPos = min(len(self._IMEText),self._IMETextPos+1)
                         
-            elif event.key in [pygame.K_RETURN, pygame.K_KP_ENTER] and len(event.unicode) == 0:
+            elif event.key in [pygame.K_RETURN, pygame.K_KP_ENTER]:
                 #Block if we have no text to append
                 if len(self._IMEText) == 0:
 
                     pass
 
-                #Append chat list
-                ChatList.append(_IMEText)
-                if (len(ChatList) > self.CHATLIST_MAXSIZE):
-                    ChatList.pop(0)
+                return self._IMEText       
+        
                 self._IMEText = ""
                 self._IMETextPos = 0
+                
 
         elif event.type == pygame.TEXTINPUT:
                 
@@ -79,7 +78,7 @@ class Text:
                 self._IMEEditingText = ""
                 self._IMEText = self._IMEText[0:self._IMETextPos] + event.text + self._IMEText[self._IMETextPos:]
                 self._IMETextPos += len(event.text)
-
+        return None
 
     def textUpdate(self):
 
