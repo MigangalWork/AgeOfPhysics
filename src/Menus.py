@@ -46,7 +46,7 @@ class Menus:
 
 class Menu:
 
-    def __init__(self, x, y, width, height, screen, buttons, id, menus):
+    def __init__(self, x, y, width, height, screen, buttons, id, menus, dynamicButtons = {}):
         self.x = x
         self.y = y
         self.width = width
@@ -63,6 +63,9 @@ class Menu:
         Menus.menu_add(self.x, self.y, self.width, self.height, self.id) 
         for i in self.buttons:
             key = i
+            if key == 'dynamic':
+                Buttons.button_create(self.dynamicButtons[key][x], y, width, height, screen, function, id)
+            
             Buttons.button_add(key)
 
 
@@ -139,9 +142,9 @@ class Buttons:
             self.buttons[key].button_surf.blit(textSurf, (x,y))
 
 
-    def button_create(self, x, y, width, height, screen, function, id):
+    def button_create(self, x, y, width, height, screen, function, id, text = 'texto', color = None):
 
-        button = Button(x, y, width, height, screen, function, id, self.buttons)   
+        button = Button(x, y, width, height, screen, function, id, self.buttons, text, color)   
 
 class Button:
 

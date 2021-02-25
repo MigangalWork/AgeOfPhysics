@@ -1,19 +1,24 @@
-import pygame, sys, random
+import pygame, sys, random, ctypes
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
-from src import config
+from src.config import startConfig
 from src.Map import GenMap, Mapa, Tiles, Chunks
 from src.Menus import Menus, Buttons
 from src import utils
 from src.Text import Text
 from src.Mouse import  draw_select_multi, Border, Mouse, Zooms
-from src.GameObjets.ButtonsAndMenus import MenuCreators, Menus, Buttons
+from src.GameObjets.ButtonsAndMenus import MenuCreators, Menus, Buttons, Texts
 from src.Display import Display
 from src.Events.Keyboard import Keyboard
 from src.Events.MouseInput import MouseInput
 
 import yaml
+
+#Confiduraccion inicial
+
+width, heigth = startConfig()
+
 
 # Iniciamos el juego
 pygame.init()
@@ -22,16 +27,18 @@ clock = pygame.time.Clock()
 constructors = {}
 
 variables = yaml.safe_load(open('variables.yaml', 'r'))
-variables['clock'] = clock
+
 constructors['clock'] = clock
+
+
 
 
 class MainMenu:
 
-    def mainMenu(variables):
+    def mainMenu(variables, constructors):
         
          # Cargamos las variables
-        screen_size = variables.get('screen_size')
+        #screen_size = variables.get('screen_size')
         screen_filled_color = variables.get('colors').get('screen_filled')
         images = variables.get('images')
         map_sizex = variables.get('map_sizex')
@@ -42,24 +49,25 @@ class MainMenu:
 
         map_size = (map_sizex[1], map_sizey[1])
         variables['map_size'] = map_size
+
+        screen_size = (width, heigth)
+        variables['screen_size'] = (width, heigth)
         
         #Cargamos las imagenes de los menus
         images = {}
 
         # Creamos la pantalla    
         display = Display(screen_size, images, screen_filled_color)
+        pantallita = display.screen()
+        
         variables['display'] = display
         constructors['display'] = display
-        pantallita = display.pantallita
 
         #Creamos menus
         menu_creator = MenuCreators(screen_size)
-        variables['menu_creator'] = menu_creator
         constructors['menu_creator'] = menu_creator
         menu_creator.create_menus(pantallita)
         menu_creator.main_screen_menus()
-
-        text = Text(pantallita, {'x' : 200, 'y' : 200, 'width' : 200, 'height' : 40}, 20, (255,255,255))
 
         run = True
         text_active = False
@@ -77,6 +85,7 @@ class MainMenu:
             
             menu_creator.Menus.menu_draw()
             menu_creator.Buttons.button_draw()
+            menus_creator.Text.text_draw()
             
             #Miramos que eventos ocurren
 
@@ -130,6 +139,6 @@ class MainMenu:
 
 
 # Corremos el juego
-MainMenu.mainMenu(variables)
-result = Game.play(variables)
+MainMenu.mainMenu(variables, constructors)
+
 sys.exit()

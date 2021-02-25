@@ -77,11 +77,11 @@ class Army:
 
             armiesGen.Armies.armyAdd(self.x, self.y, self.image, self.id)
 
-    def addUnitToArmy(self, key, num = 1, Units): 
+    def addUnitToArmy(self, key, Units, num = 1): 
         
         if key in self.units.keys():
 
-            self.units[key] = 
+            self.units[key]
         
         else:
 

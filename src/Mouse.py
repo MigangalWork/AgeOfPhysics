@@ -122,7 +122,6 @@ class Zooms:
             
             #movex = movex - (2 * ejeCoordenadas[0] - ejeCoordenadas[0])
             movex = movex - eje_coordenadas[0]
-
             #movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
             movey = movey - eje_coordenadas[1]
         '''        
@@ -148,4 +147,3 @@ class Zooms:
         mapaactual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
 
         return supmapa, movex, movey, zoomv, map_size
-

@@ -2,6 +2,38 @@ import pygame, sys
 import pygame.freetype
 import logging
 
+class Texts:
+
+    def __init__(self):
+
+        self.activeTexts = {}
+        self.texts = {}
+
+    def text_create(self, screen, chat_pos, font_size, color, id):
+        
+        text = Text(screen, chat_pos, font_size, color)
+        texts[id] = text
+
+    def text_add(self, id):
+
+        self.activeTexts[id] = True
+
+    def text_draw(self):
+
+        for id in self.activeTexts:
+            self.texts[id].textUpdate
+
+    def text_erase(self, id):
+
+        del self.activeTexts[id]
+
+        
+    def text_edit(self, id, event):
+
+        self.texts[id].textEdit(event)
+
+    
+
 class Text:
     """
         Usage:
@@ -40,6 +72,7 @@ class Text:
         self._IMEEditingPos = 0
         self.ChatList = []
         self.CHATLIST_MAXSIZE = 20
+
 
     def textEdit(self, event):
 

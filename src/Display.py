@@ -14,10 +14,21 @@ class Display:
         self.screen_size = screen_size
         self.images = images
         self.screen_filled_color = screen_filled_color
-        self.pantallita = pygame.display.set_mode(screen_size, pygame.HWSURFACE)
+        
+
+    def screen(self):
+
+        if pygame.display.get_init():
+
+            pygame.display.quit()
+            
+        
+        pygame.display.init()
+        self.pantallita = pygame.display.set_mode(self.screen_size, pygame.HWSURFACE)
         print(self.pantallita)
-        
-        
+
+        return self.pantallita
+                
     def maps(self, map_size):
 
         self.supmapa = pygame.Surface(map_size, pygame.HWSURFACE)
@@ -39,3 +50,10 @@ class Display:
 
     def returnMaps(self):
         return self.supmapa, self.supmapaAir, self.supmapaSpace
+
+    def screenSize(self, width, heigth, screen_size, variables):
+
+        self.screen_size = (width, height)
+        variables['screen_size'] = self.screen_size
+        self.screen()
+
