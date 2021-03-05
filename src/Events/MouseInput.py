@@ -10,11 +10,13 @@ class MouseInput:
 
     
 
-    def clickInput(event, variables, constructors):
+    def clickInput(event, variables, constructors, superficies):
 
         menu_creator = constructors['menu_creator']
 
         unitsCreator = constructors.get('unitsCreator', None)
+
+        variables['text_active'] = None
             
         
         
@@ -37,7 +39,8 @@ class MouseInput:
         if menu_creator.Menus.menu_clicked(clicked) == True:
             
             key = menu_creator.Buttons.button_clicked(clicked)
-            EventsFinder.findFunction(key, variables, constructors)
+            print(key)
+            EventsFinder.findFunction(key, variables, constructors, superficies)
 
         elif unitsCreator != None and unitsCreator.Armies.army_clicked(clicked) != '-1':
             

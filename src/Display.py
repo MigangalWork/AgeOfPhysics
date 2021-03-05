@@ -37,9 +37,17 @@ class Display:
         self.supmapaSpace = pygame.Surface(map_size)
         self.pantallita.blit(self.supmapa, (0,0))
 
-    def display(self, mapaActual, map_generator, movex, movey, zoomv, supmapa):
+    def display(self, mapaActual, map_generator, movex, movey, zoomv, supmapa, map_size):
 
-        self.supmapa = supmapa
+        for key1 in self.images:
+            for key2 in self.images[key1]:
+                for key3 in self.images[key1][key2]:
+
+                    self.images[key1][key2][key3] = pygame.image.fromstring(self.images[key1][key2][key3], (key3, key3), 'RGB')
+
+
+        self.supmapa = pygame.image.fromstring(supmapa, map_size, 'RGB')
+        
         self.pantallita.fill(self.screen_filled_color)
         self.pantallita.blit(self.supmapa, (0 + movex, 0 + movey))
         self.supmapa.fill(self.screen_filled_color)

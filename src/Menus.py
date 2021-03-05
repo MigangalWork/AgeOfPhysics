@@ -1,13 +1,5 @@
 import pygame
 
-def draw_text_centered(text, font, color, surface, x, y):
-    textobj = font.render(text, 1, color)
-    x -= textobj.get_width()/2
-    y -= textobj.get_height()/2
-    textrect = textobj.get_rect()
-    textrect.topleft = (x, y)
-    surface.blit(textobj, textrect)
-
 class Menus:
 
     def __init__(self):

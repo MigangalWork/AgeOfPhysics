@@ -8,7 +8,7 @@ from src.Menus import Menus, Buttons
 from src import utils
 from src.Text import Text
 from src.Mouse import  draw_select_multi, Border, Mouse, Zooms
-from src.GameObjets.ButtonsAndMenus import MenuCreators, Menus, Buttons, Texts
+from src.GameObjets.ButtonsAndMenus import MenuCreators, Menus, Buttons
 from src.Display import Display
 from src.Events.Keyboard import Keyboard
 from src.Events.MouseInput import MouseInput
@@ -19,12 +19,15 @@ import yaml
 
 width, heigth = startConfig()
 
+width = width//2
+heigth = heigth//2
 
 # Iniciamos el juego
 pygame.init()
 clock = pygame.time.Clock()
 
 constructors = {}
+superficies = {}
 
 variables = yaml.safe_load(open('variables.yaml', 'r'))
 
@@ -35,7 +38,7 @@ constructors['clock'] = clock
 
 class MainMenu:
 
-    def mainMenu(variables, constructors):
+    def mainMenu(variables, constructors, superficies):
         
          # Cargamos las variables
         #screen_size = variables.get('screen_size')
@@ -60,7 +63,6 @@ class MainMenu:
         display = Display(screen_size, images, screen_filled_color)
         pantallita = display.screen()
         
-        variables['display'] = display
         constructors['display'] = display
 
         #Creamos menus
@@ -70,22 +72,21 @@ class MainMenu:
         menu_creator.main_screen_menus()
 
         run = True
-        text_active = False
+        variables['text_active'] = None
 
         while run:
 
 
             #Pintamos la pantalla
             #display.display(mapaActual, map_generator, movex, movey, zoomv, supmapa)
-           
-            if text_active == True:
-                text.textUpdate()
+        
 
             #Pintamos menus
             
             menu_creator.Menus.menu_draw()
             menu_creator.Buttons.button_draw()
-            menus_creator.Text.text_draw()
+            menu_creator.Texts.text_draw()
+            
             
             #Miramos que eventos ocurren
 
@@ -100,7 +101,7 @@ class MainMenu:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     
-                    MouseInput.clickInput(event, variables, constructors)
+                    MouseInput.clickInput(event, variables, constructors, superficies)
                     '''
                     clicking[event.button] = True
 
@@ -131,7 +132,20 @@ class MainMenu:
                     text.textEdit(event)
                     text.textUpdate()
                 '''
-            clock.tick(60)
+
+                if event.type == pygame.KEYDOWN:
+
+                    pass
+
+                if variables['text_active'] != None:
+                        text = menu_creator.Texts.texts[variables['text_active']].textEdit(event)
+                        #text.textUpdate()
+                        if text != None:
+                            textSaved = text
+                            print(textSaved)
+
+
+            clock.tick(30)
             pygame.display.update()  
         
         pygame.quit()
@@ -139,6 +153,6 @@ class MainMenu:
 
 
 # Corremos el juego
-MainMenu.mainMenu(variables, constructors)
+MainMenu.mainMenu(variables, constructors, superficies)
 
 sys.exit()

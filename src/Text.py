@@ -12,7 +12,7 @@ class Texts:
     def text_create(self, screen, chat_pos, font_size, color, id):
         
         text = Text(screen, chat_pos, font_size, color)
-        texts[id] = text
+        self.texts[id] = text
 
     def text_add(self, id):
 
@@ -78,6 +78,7 @@ class Text:
 
 
         if event.type == pygame.KEYDOWN:
+            print('******** event text')
 
             if event.key == pygame.K_BACKSPACE:
                 if (len(self._IMEText) > 0 and self._IMETextPos > 0):
@@ -98,7 +99,7 @@ class Text:
                 if len(self._IMEText) == 0:
 
                     pass
-
+                print(self._IMEText)
                 return self._IMEText       
         
                 self._IMEText = ""
@@ -111,6 +112,7 @@ class Text:
                 self._IMEEditingText = ""
                 self._IMEText = self._IMEText[0:self._IMETextPos] + event.text + self._IMEText[self._IMETextPos:]
                 self._IMETextPos += len(event.text)
+                
         return None
 
     def textUpdate(self):

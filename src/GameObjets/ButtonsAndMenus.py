@@ -1,5 +1,6 @@
+import pygame
 from src.Menus import Menus, Buttons
-from src.Text import Text
+from src.Text import Texts, Text
 
 
 class MenuCreators:
@@ -11,7 +12,7 @@ class MenuCreators:
 
         self.Menus = Menus()
         self.Buttons = Buttons()
-        self.Text = Text()
+        self.Texts = Texts()
 
         self.screen_size = screen_size
 
@@ -23,9 +24,11 @@ class MenuCreators:
         #Creamos los menus y sus botones
 
         #Pantalla de inicio
-        listaBotones.append('I0000', 'I0010')
+        listaBotones.append('I0000')
+        listaBotones.append('I0010')
         menu = self.Menus.menu_create(0, 0, self.screen_size[0], self.screen_size[1], pantallita, listaBotones, 'I00')
         listaBotones = []
+        print(listaBotones)
 
 
         #Menus principales del juego
@@ -49,11 +52,11 @@ class MenuCreators:
         x = pygame.Surface.get_width(self.Buttons.buttons['I0010'].button_surf) * 3 //2
         y = pygame.Surface.get_height(self.Buttons.buttons['I0010'].button_surf) - 5
         
-        text = Text.text_create(self.Buttons.buttons['I0010'].button_surf, {'x' : x, 'y' : y, 'width' : 200, 'height' : 40}, 10, (255,255,255), 'TI0010')
+        text = self.Texts.text_create(self.Buttons.buttons['I0010'].button_surf, {'x' : x, 'y' : y, 'width' : 200, 'height' : 40}, 10, (255,255,255), 'TI0010')
 
         #Menus principales del juego
 
-        button_1_menu_1 = self.Buttons.button_create(self.Menus.menus['00'].width//100, self.Menus.menus['00'].height//20, self.Menus.menus['00'].width//10, self.Menus.menus['00'].height//10, self.Menus.menus['00'].menu_surf, [], '0000')
+        button_0000 = self.Buttons.button_create(self.Menus.menus['00'].width//100, self.Menus.menus['00'].height//20, self.Menus.menus['00'].width//10, self.Menus.menus['00'].height//10, self.Menus.menus['00'].menu_surf, [], '0000')
 
         #Bottones dinamicos
 
@@ -61,19 +64,23 @@ class MenuCreators:
 
         id = 'dynamic.' + dynamicButtonAttrib.get('num', '0')
         x = dynamicButtonAttrib[x]
-        y = 
-        width =
-        height =
-        screen = 
-        function =
+        y = dynamicButtonAttrib[x]
+        width = dynamicButtonAttrib[x]
+        height = dynamicButtonAttrib[x]
+        screen = dynamicButtonAttrib[x] 
+        function = dynamicButtonAttrib[x]
         button_dinamico = self.Buttons.button_create(x, y, width, height, screen, function, id, text = 'texto', color = None)
+
+    def delete_dynamic_button(self):
+
+        pass
 
     def delete_menus(self, id):
         self.Menus.menu_erase(id)
 
     def main_screen_menus(self):
         self.Menus.menus['I00'].activate_menu(self.Menus, self.Buttons)
-        self.Text.text_add('TI0010')
+        self.Texts.text_add('TI0010')
 
 
     def main_menus(self):

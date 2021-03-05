@@ -1,4 +1,5 @@
 import pygame, sys, random
+import multiprocessing
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
@@ -14,10 +15,20 @@ from src.Display import Display
 from src.Events.Keyboard import Keyboard
 from src.Events.MouseInput import MouseInput
 
+class Test:
+
+    def __init__(self, a = 1):
+
+        self.a = a
+            
+    def printear(self, b):
+
+        print(self.a)
+        print(b)
 
 class Game:
 
-    def play(variables, constructors):
+    def play(variables, constructors, superficies):
         print('Iniciando Juego')
         # Cargamos las variables
         screen_size = variables.get('screen_size')
@@ -35,6 +46,7 @@ class Game:
         zoom_base = variables.get('zoom_base')
 
         map_size = (map_sizex[1], map_sizey[1])
+        variables['map_size'] = map_size
         zoom_list = list(map(lambda x: zoomv * x, zoom_list_refs))
         zoom_list.append(2)
 
@@ -45,12 +57,13 @@ class Game:
         clock = constructors['clock']
         
         #Cargamos las imagenes en memoria
-        images = utils.charge_images(images, zoom_list, images_dir)
-        variables['images'] = images
+        images, imagesString = utils.charge_images(images, zoom_list, images_dir)
+        variables['images'] = imagesString
+        superficies['images'] = images
 
         # Creamos los mapas de la pantalla
 
-        display.images = images
+        display.images = imagesString
         display.maps(map_size)
         pantallita = display.returnScreen()
         maps = display.returnMaps()
@@ -99,15 +112,19 @@ class Game:
         selected = []
         clicked_map_origin = [0, 0]
         
+        test = Test()
 
-        
+        screenProcess = multiprocessing.Process(target=test.printear, args=('10'))
+        screenProcess.start()
         
         while run:
 
 
             #Pintamos la pantalla
             
-            display.display(constructors['mapaActual'], constructors['map_generator'], variables['movex'], variables['movey'], variables['zoomv'], variables['supmapa'])
+            #screenProcess = multiprocessing.Process(target=display.display, args=(constructors['mapaActual'], constructors['map_generator'], variables['movex'], variables['movey'], variables['zoomv'], pygame.image.tostring(variables['supmapa'], 'RGB'), variables['map_size']))
+            display.display(constructors['mapaActual'], constructors['map_generator'], variables['movex'], variables['movey'], variables['zoomv'], pygame.image.tostring(variables['supmapa'], 'RGB'), variables['map_size'])
+            
             '''
             pantallita.fill(screen_filled_color)
             pantallita.blit(supmapa, (0 + movex, 0 + movey))
@@ -203,7 +220,7 @@ class Game:
                         textoSaved = texto
                         print(textoSaved)
 
-            clock.tick(60)
+            clock.tick(30)
             pygame.display.flip() 
         
         pygame.quit()
