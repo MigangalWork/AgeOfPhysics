@@ -63,7 +63,8 @@ class Game:
 
         # Creamos los mapas de la pantalla
 
-        display.images = imagesString
+        display.images = images
+        #display.image()
         display.maps(map_size)
         pantallita = display.pantallita
         maps = display.returnMaps()
@@ -83,7 +84,7 @@ class Game:
         mapaActual = MapaString(zoomv)
         constructors['mapaActual'] = mapaActual
 
-        mapaActual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
+        mapaActual.create(map_generator.map_list, images, movex, movey, zoomv, map_size)
         
         
         #Creamos menus
@@ -114,9 +115,14 @@ class Game:
         
         test = Test()
 
-        screenProcess = multiprocessing.Process(target=test.printear, args=('10'))
-        screenProcess.start()
+        #screenProcess = multiprocessing.Process(target=test.printear, args=('10'))
+        #screenProcess.start()
         
+        #Creamos el mapa en si
+        display.displayCreate(constructors['mapaActual'], constructors['map_generator'], variables['movex'], variables['movey'], variables['zoomv'], pygame.image.tostring(variables['supmapa'], 'RGB'), variables['map_size'])
+
+
+
         while run:
 
 

@@ -18,8 +18,8 @@ def charge_images(path, zoom_list, start="images/lowRes"):
         
         for subd2 in lista2:
             lista3 = os.listdir(os.path.join(start, subd, subd2))
-            images[subd][subd2] = []
-            imagesStrings[subd][subd2] = []
+            images[subd][subd2] = {}
+            imagesStrings[subd][subd2] = {}
 
             for imgfile in lista3:    
                 idic = {}
@@ -29,8 +29,8 @@ def charge_images(path, zoom_list, start="images/lowRes"):
                 for size in zoom_list:
                     idic[size] = _sizemap(size, base_image)
                     idicS[size] = pygame.image.tostring(idic[size], 'RGB')
-                images[subd][subd2].append(idic)
-                imagesStrings[subd][subd2].append(idicS)
+                images[subd][subd2][imgfile] = idic
+                imagesStrings[subd][subd2][imgfile] = idicS
 
-    print(images)
+    
     return images, imagesStrings

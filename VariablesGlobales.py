@@ -142,7 +142,21 @@ test1 = Test1()
 
 dic1 = { "var1" : test1}
 
-dic1["var1"].var1 = 3
+var2 = dic1["var1"]
+
+var2.var1 = 3
+a = list(dic1.keys())[0]
+
+lista = [{9 : 1, 8 : 2 }, {2 : 3, 2 : 4}]
+
+num = 0
+for k in lista:
+    
+    for g in lista[num]:
+        print(lista[num][g])
+    num = num + 1
+print(a)
+
 
 
 print(test1.var1)

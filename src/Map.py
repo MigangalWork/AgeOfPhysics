@@ -267,7 +267,7 @@ class Chunks:
         grp = list(self.images[cat].keys())[var]
 
         var = random.randint(0, len(self.images[cat][grp])-1)
-        img = var
+        img = list(self.images[cat][grp].keys())[var]
 
         lista = (cat,grp,img)
         return lista
@@ -282,7 +282,7 @@ class Chunks:
         grp = list(self.images[cat].keys())[var]
 
         var = random.randint(0, len(self.images[cat][grp])-1)
-        img = var
+        img = list(self.images[cat][grp].keys())[var]
 
         lista = (cat,grp,img)
         return lista
@@ -297,7 +297,7 @@ class Chunks:
         grp = 'sea'
 
         var = random.randint(0, len(self.images[cat][grp])-1)
-        img = var
+        img = list(self.images[cat][grp].keys())[var]
 
         lista = (cat,grp,img)
         return lista
@@ -312,7 +312,7 @@ class Chunks:
         grp = list(self.images[cat].keys())[var]
 
         var = random.randint(0, len(self.images[cat][grp])-1)
-        img = var
+        img = list(self.images[cat][grp].keys())[var]
 
         lista = (cat,grp,img)
         return lista
@@ -327,7 +327,7 @@ class Chunks:
         grp = list(self.images[cat].keys())[var]
 
         var = random.randint(0, len(self.images[cat][grp])-1)
-        img = var
+        img = list(self.images[cat][grp].keys())[var]
 
         lista = (cat,grp,img)
         return lista
@@ -351,11 +351,16 @@ class MapaString:
     def __init__(self, imgsize):
         self.imgsize = imgsize
 
-    def create(self, map_list, images, supmapa, movex, movey, zoomv, screen_size):
+    def create(self, map_list, images, movex, movey, zoomv, map_size):
         # Esta función dibuja el mapa
         cero_pantalla = (-movex , -movey)
+
+        supmapa = pygame.Surface(map_size)
+
         for tile in map_list:
-        
+
+            imgsurface = pygame.Surface((zoomv, zoomv))
+            imgsurface.blit(images[tile['imgCat']][tile['imgGrp']][tile['img']][zoomv], (0, 0))
             supmapa.blit(images[tile['imgCat']][tile['imgGrp']][tile['img']][zoomv], (tile['pos']))
         
         return pygame.image.tostring(supmapa, "RGB")
