@@ -4,7 +4,7 @@ import logging
 logging.getLogger().setLevel(logging.INFO)
 
 from src import config
-from src.Map import GenMap, Mapa, Tiles, Chunks
+from src.Map import GenMap, MapaString, Tiles, Chunks
 from src.Menus import Menus, Buttons
 from src import utils
 from src.Text import Text
@@ -65,7 +65,7 @@ class Game:
 
         display.images = imagesString
         display.maps(map_size)
-        pantallita = display.returnScreen()
+        pantallita = display.pantallita
         maps = display.returnMaps()
         variables['maps'] = maps
         variables['supmapa'] = maps[0]
@@ -80,7 +80,7 @@ class Game:
         map_generator.gen_map(map_size, images, chunk)
 
         #map_tile = Tiles.tiles(map_size, map_sizex, map_sizey, zoomv, map_generator.map_list)
-        mapaActual = Mapa(zoomv)
+        mapaActual = MapaString(zoomv)
         constructors['mapaActual'] = mapaActual
 
         mapaActual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)

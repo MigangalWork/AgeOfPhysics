@@ -131,3 +131,18 @@ print(a)
 b = {1 : 1, 2 : 2}
 id = 'army.' + str(len(b.keys()))
 print(id)
+
+class Test1:
+
+    def __init__(self):
+        self.var1=1
+    
+
+test1 = Test1()
+
+dic1 = { "var1" : test1}
+
+dic1["var1"].var1 = 3
+
+
+print(test1.var1)

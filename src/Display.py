@@ -17,27 +17,28 @@ class Display:
         
 
     def screen(self):
-
+        """
         if pygame.display.get_init():
 
             pygame.display.quit()
-            
+        """            
         
         pygame.display.init()
         self.pantallita = pygame.display.set_mode(self.screen_size, pygame.HWSURFACE)
         print(self.pantallita)
 
-        return self.pantallita
+        self.image()
+
                 
     def maps(self, map_size):
 
         self.supmapa = pygame.Surface(map_size, pygame.HWSURFACE)
         print(self.supmapa)
-        self.supmapaAir = pygame.Surface(map_size)
-        self.supmapaSpace = pygame.Surface(map_size)
+        self.supmapaAir = pygame.Surface(map_size, pygame.HWSURFACE)
+        self.supmapaSpace = pygame.Surface(map_size, pygame.HWSURFACE)
         self.pantallita.blit(self.supmapa, (0,0))
 
-    def display(self, mapaActual, map_generator, movex, movey, zoomv, supmapa, map_size):
+    def image(self):
 
         for key1 in self.images:
             for key2 in self.images[key1]:
@@ -45,13 +46,18 @@ class Display:
 
                     self.images[key1][key2][key3] = pygame.image.fromstring(self.images[key1][key2][key3], (key3, key3), 'RGB')
 
+    def display(self, mapaActual, map_generator, movex, movey, zoomv, supmapa, map_size):
 
-        self.supmapa = pygame.image.fromstring(supmapa, map_size, 'RGB')
+
+
+        mapa = mapaActual.create(map_generator.map_list, self.images, self.supmapa, movex, movey, zoomv, self.screen_size)
+        self.supmapa = pygame.image.fromstring(mapa, map_size, 'RGB')
+
         
         self.pantallita.fill(self.screen_filled_color)
         self.pantallita.blit(self.supmapa, (0 + movex, 0 + movey))
-        self.supmapa.fill(self.screen_filled_color)
-        mapaActual.create(map_generator.map_list, self.images, self.supmapa, movex, movey, zoomv, self.screen_size)
+
+
     
     def returnScreen(self):
         return self.pantallita

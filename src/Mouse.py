@@ -72,7 +72,7 @@ class SelecCasilla:
         if var2 == -1 or var == -1:
             return [-1, -1]
         return [var2,var]
-
+"""
 class Zooms:
 
     def zoom(evento, zoomv, supmapa, movex, movey, map_size, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size, xy, mapaActual):
@@ -110,6 +110,44 @@ class Zooms:
         logger.info(zoomv)
         map_generator.zoom_map(map_size, zoomv)
         mapaActual.create(map_generator.map_list, images, supmapa, movex, movey, zoomv, screen_size)
+
+        return supmapa, movex, movey, zoomv, map_size
+"""
+class Zooms:
+
+    def zoom(evento, zoomv, supmapa, movex, movey, map_size, zoom_base, eje_coordenadas, screen_filled_color, map_generator, images, screen_size, xy, mapaActual):
+
+        old_mapsize = map_size
+
+        if evento > 0 and evento < 5:
+            zoomv = zoomv * 2
+            #limite de zoom maximo
+            if zoomv > zoom_base * 8:
+                zoomv = zoom_base * 8
+            else:
+                map_size =  [map_size[0] * 2, map_size[1] * 2]
+                
+                #movex = movex - (2 * ejeCoordenadas[0] - ejeCoordenadas[0])
+                movex = movex - xy[0]
+
+                #movey = movey - (2 * ejeCoordenadas[1] - ejeCoordenadas[1])
+                movey = movey - xy[1]
+                
+
+        if evento < 0 and evento > -5:
+            
+            zoomv = int(zoomv * 0.5)
+
+            #limite de zoom minimo
+            if zoomv < zoom_base:
+                zoomv = zoom_base
+            else:
+                map_size =  [int(map_size[0] * 0.5), int(map_size[1] * 0.5)]
+                movex = movex - int(0.5 * eje_coordenadas[0] - eje_coordenadas[0])
+                movey = movey - int(0.5 * eje_coordenadas[1] - eje_coordenadas[1])
+
+        supmapa = mapaActual.zoom(supmapa, old_mapsize, map_size)      
+        
 
         return supmapa, movex, movey, zoomv, map_size
 

@@ -346,6 +346,32 @@ class Mapa:
                 if tile['pos'][1] > cero_pantalla[1] - 2 * zoomv and cero_pantalla[1] + screen_size[1] + zoomv > tile['pos'][1]:
                     supmapa.blit(images[tile['imgCat']][tile['imgGrp']][tile['img']][zoomv], (tile['pos']))
 
+class MapaString:
+
+    def __init__(self, imgsize):
+        self.imgsize = imgsize
+
+    def create(self, map_list, images, supmapa, movex, movey, zoomv, screen_size):
+        # Esta función dibuja el mapa
+        cero_pantalla = (-movex , -movey)
+        for tile in map_list:
+        
+            supmapa.blit(images[tile['imgCat']][tile['imgGrp']][tile['img']][zoomv], (tile['pos']))
+        
+        return pygame.image.tostring(supmapa, "RGB")
+
+
+    def zoom(self, supmapa, oldmapsize, mapsize):
+        # Esta función reescala el mapa
+        
+        supmapa = pygame.image.fromstring(supmapa, oldmapsize, "RGB")
+        supmapa = pygame.transform.scale(supmapa, mapsize)
+        
+        #return pygame.image.tostring(supmapa, "RGB")
+        return supmapa
+        
+
+
 class Tile:
 
     def tile(map_dic_XY, id):

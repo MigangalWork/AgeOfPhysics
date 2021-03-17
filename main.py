@@ -61,7 +61,8 @@ class MainMenu:
 
         # Creamos la pantalla    
         display = Display(screen_size, images, screen_filled_color)
-        pantallita = display.screen()
+        display.screen()
+        pantallita = display.pantallita
         
         constructors['display'] = display
 
