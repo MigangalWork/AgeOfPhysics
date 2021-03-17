@@ -50,14 +50,17 @@ class Display:
                         self.images[key1][key2][key3][key4] = pygame.image.fromstring(self.images[key1][key2][key3][key4], (int(list(self.images[key1][key2][key3].keys())[num]), int(list(self.images[key1][key2][key3].keys())[num])), 'RGB')
                        
                         num = num + 1
-                        
+
     def displayCreate(self, mapaActual, map_generator, movex, movey, zoomv, supmapa, map_size):
 
         mapa = mapaActual.create(map_generator.map_list, self.images, movex, movey, zoomv, map_size)
         self.supmapa = pygame.image.fromstring(mapa, map_size, 'RGB')
 
+        return self.supmapa
+
     def display(self, mapaActual, map_generator, movex, movey, zoomv, supmapa, map_size):
         
+        self.supmapa = pygame.image.fromstring(supmapa, map_size, 'RGB')
         self.pantallita.fill(self.screen_filled_color)
         self.pantallita.blit(self.supmapa, (0 + movex, 0 + movey))
 

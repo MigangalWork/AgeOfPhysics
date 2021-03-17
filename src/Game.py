@@ -119,7 +119,7 @@ class Game:
         #screenProcess.start()
         
         #Creamos el mapa en si
-        display.displayCreate(constructors['mapaActual'], constructors['map_generator'], variables['movex'], variables['movey'], variables['zoomv'], pygame.image.tostring(variables['supmapa'], 'RGB'), variables['map_size'])
+        variables['supmapa'] = display.displayCreate(constructors['mapaActual'], constructors['map_generator'], variables['movex'], variables['movey'], variables['zoomv'], pygame.image.tostring(variables['supmapa'], 'RGB'), variables['map_size'])
 
 
 

@@ -10,7 +10,7 @@ class MouseInput:
 
     
 
-    def clickInput(event, variables, constructors, superficies):
+    def clickInput(event, variables, constructors, superficies = None):
 
         menu_creator = constructors['menu_creator']
 
